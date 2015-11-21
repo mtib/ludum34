@@ -1,5 +1,5 @@
 # Ludum Dare 34
-Participants
+## Participants
 - Markus "TiByte" Becker
 - Kilian "Malloth Rha" Bonin
 - LFalch
