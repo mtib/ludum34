@@ -1,20 +1,36 @@
 # Ludum Dare 34
+Play at [ld34.rateld.de](http://ld34.rateld.de)!
 ## Participants
-| Name              | Alias             | Part              |
-| ---               | ---               | ---               |
-| Markus            | TiByte            | Lead Programmer / Integration |
-| Kilian            | Malloth Rha       | Musician          |
-| Lucas             | LFalch            | Programmer        |
-| Aileen            |                   | Artist            |
-| Enrico            |                   | Q&A Tester / Storyboard |
+| Name   | Alias                                | Part              |
+| ---    | ---                                  | ---               |
+| Markus | [TiByte](http://tibyte.net)          | Lead Programmer   |
+| Kilian | [Malloth Rha](http://rha.tibyte.net) | Musician          |
+| Lucas  | [LFalch](https://github.com/lfalch)  | Programmer        |
+| Aileen |                                      | Artist            |
+| Enrico |                                      | Q&A Tester        |
 
 ### Own Rules
 - Music in .ogg format
 - Game in JavaScript / HTML / Python(?)
 
 ### Goals
-- [ ] PreLD project structure (Markus)
+- [x] PreLD project structure (Markus)
 - [ ] Intro Jingle
 - [ ] Credits Song
 - [ ] Animations ? (Aileen + Kilian)
 - [ ] Rating together
+
+## Tools
+| Name          | Usage         |
+| ---           | ---           |
+| Atom          | text editor   |
+| Sublime text  | text editor   |
+| Gimp / Sai    | graphics      |
+| SFXR / BFXR   | sounds        |
+| Audacity      | mixing music  |
+
+## Libraries
+| Name                                                | Usage         |
+| ---                                                 | ---           |
+| [Pixi.js](https://github.com/pixijs/pixi.js)        | canvas        |
+| [Howler.js](https://github.com/goldfire/howler.js/) | music/sound   |
