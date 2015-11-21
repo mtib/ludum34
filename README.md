@@ -1,10 +1,12 @@
 # Ludum Dare 34
 ## Participants
-- Markus "TiByte" Becker
-- Kilian "Malloth Rha" Bonin
-- LFalch
-- Aileen
-- Enrico
+| Name              | Alias             | Part              |
+| ---               | ---               | ---               |
+| Markus            | TiByte            | Lead Programmer / Integration |
+| Kilian            | Malloth Rha       | Musician          |
+| Lucas             | LFalch            | Programmer        |
+| Aileen            |                   | Artist            |
+| Enrico            |                   | Q&A Tester / Storyboard |
 
 ### Own Rules
 - Music in .ogg format
