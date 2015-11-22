@@ -5,7 +5,7 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 | ---    | ---                                  | ---               |
 | Markus | [TiByte](http://tibyte.net)          | Lead Programmer   |
 | Kilian | [Malloth Rha](http://rha.tibyte.net) | Musician          |
-| Lucas  | [LFalch](https://github.com/lfalch)  | Programmer        |
+| Lucas  | [LFalch](http://lfalch.com/)         | Programmer        |
 | Aileen |                                      | Artist            |
 | Enrico |                                      | Q&A Tester        |
 
