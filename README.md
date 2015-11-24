@@ -12,6 +12,10 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 ### Own Rules
 - Music in .ogg format
 - Game in JavaScript / HTML / Python(?)
+- Everything should be working on Ubuntu (14.04+) and Windows (7+)
+- Follow the folders \*\_rules.txt files rules
+- development repo is github
+- deployment repo is ld34.rateld.de (managed by Markus)
 
 ### Goals
 - [x] PreLD project structure (Markus)
@@ -23,11 +27,11 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 ## Tools
 | Name          | Usage         |
 | ---           | ---           |
-| [Atom](http://atom.io)          | text editor   |
-| Sublime text  | text editor   |
-| Gimp / Sai    | graphics      |
-| SFXR / [BFXR](http://www.bfxr.net/)   | sounds        |
-| Audacity      | mixing music  |
+| [Atom](http://atom.io/)          | text editor   |
+| [Sublime text](http://www.sublimetext.com/)  | text editor   |
+| [Gimp](http://www.gimp.org/) / [Sai](http://systemax.jp/en/sai/)    | graphics      |
+| [SFXR](https://github.com/grimfang4/sfxr) / [BFXR](http://www.bfxr.net/)   | sounds        |
+| [Audacity](http://audacityteam.org/)      | mixing music  |
 
 ## Libraries
 | Name                                                | Usage         |
