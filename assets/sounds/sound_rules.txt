@@ -1,0 +1,2 @@
+Sounds should be .ogg or .wav
+When not noted otherwise they will be created with SFXR or BFXR (http://www.bfxr.net/)

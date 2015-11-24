@@ -23,10 +23,10 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 ## Tools
 | Name          | Usage         |
 | ---           | ---           |
-| Atom          | text editor   |
+| [Atom](http://atom.io)          | text editor   |
 | Sublime text  | text editor   |
 | Gimp / Sai    | graphics      |
-| SFXR / BFXR   | sounds        |
+| SFXR / [BFXR](http://www.bfxr.net/)   | sounds        |
 | Audacity      | mixing music  |
 
 ## Libraries
