@@ -8,6 +8,7 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 | [Lucas](https://github.com/LFalch)  | [LFalch](http://lfalch.com/)         | Programmer        |
 | Aileen |                                      | Artist            |
 | Enrico |                                      | Q&A Tester        |
+| Micha  |                                      | Programmer        |
 
 ### Own Rules
 - Music in .ogg format
