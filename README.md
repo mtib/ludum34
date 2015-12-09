@@ -3,10 +3,10 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 ## Participants
 | Name   | Alias                                | Part              |
 | ---    | ---                                  | ---               |
-| [Markus](https://github.com/tibyte) | [TiByte](http://tibyte.net)          | Lead Programmer   |
+| [Markus](https://github.com/tibyte)     | [TiByte](http://tibyte.net)          | Lead Programmer   |
 | [Kilian](https://github.com/MallothRha) | [Malloth Rha](http://rha.tibyte.net) | Musician          |
-| [Lucas](https://github.com/LFalch)  | [LFalch](http://lfalch.com/)         | Programmer        |
-| Aileen |                                      | Artist            |
+| [Lucas](https://github.com/LFalch)  	  | [LFalch](http://lfalch.com/)         | Programmer        |
+| Aileen |                                      | Art Designer      |
 | Enrico |                                      | Q&A Tester        |
 | Micha  |                                      | Programmer        |
 
