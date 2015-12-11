@@ -40,7 +40,7 @@ working with sprites
 ```javascript
 x = 100;
 y = 200;
-example = mew PIXI.Sprite.fromImage("...");
+example = new PIXI.Sprite.fromImage("...");
 // this v
 example.position.set(x,y);
 // ^ equals v
