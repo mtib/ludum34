@@ -36,10 +36,10 @@ stage.addChild(cGui);
 
 // Version Text (top left)
 var versionconfig = fontConfig;
-var actionconfig = {font: "80px 'rockfire'", fill: "#000000", align:"center"};
-var statsconfig = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
-var actionbgconfig = {font: "80px 'rockfire'", fill: "#FFFFFF", align:"center"};
-var statsbgconfig = {font: "28px 'rockfire'", fill: "#FFFFFF", align:"right"};
+var actionconfig = {font: "65px 'rockfire'", fill: "#6DA1D7", align:"center"};
+var statsconfig = {font: "28px 'rockfire'", fill: "#6DA1D7", align:"right"};
+var actionbgconfig = {font: "65px 'rockfire'", fill: "#000000", align:"center"};
+var statsbgconfig = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
 
 var versionText = new PIXI.Text("Version 0.02d", versionconfig);
 var actionText = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
@@ -50,17 +50,17 @@ var statsbgText = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig)
 var animstatbgText = new PIXI.Text("n\nm\nN", statsbgconfig);
 
 versionText.position = {x:10,y:10};
-actionText.position = {x:WIDTH/2,y:HEIGHT/2};
+actionText.position = {x:2*WIDTH/3,y:HEIGHT/2};
+actionbgText.position = {x:2*WIDTH/3+2,y:HEIGHT/2+2};
 actionText.anchor = {x:0.5,y:2.25};
-statsText.position = {x:WIDTH-10, y:HEIGHT-5};
-statsText.anchor = {x:1,y:1}
-animstatText.position = {x:WIDTH-130, y:HEIGHT-5};
-animstatText.anchor = {x:1,y:1}
-actionbgText.position = {x:WIDTH/2+2,y:HEIGHT/2+2};
 actionbgText.anchor = {x:0.5,y:2.25};
+statsText.position = {x:WIDTH-10, y:HEIGHT-5};
 statsbgText.position = {x:WIDTH-10+2, y:HEIGHT-5+2};
+statsText.anchor = {x:1,y:1}
 statsbgText.anchor = {x:1,y:1}
+animstatText.position = {x:WIDTH-130, y:HEIGHT-5};
 animstatbgText.position = {x:WIDTH-130+2, y:HEIGHT-5+2};
+animstatText.anchor = {x:1,y:1}
 animstatbgText.anchor = {x:1,y:1}
 
 // Adding info text
@@ -101,6 +101,9 @@ var crane_base_file = "assets/image/sprites/cran_layer.png";
 var crane_arm_file = "assets/image/sprites/cranarm_layer.png";
 var port_file = "assets/image/sprites/port_layer.png";
 var sky_file = "assets/image/bg/sky_layer.png";
+var container_file = "assets/image/sprites/container_layer.png";
+var displace_file = "assets/image/sprites/displace.png";
+//var wave_file = "assets/image/sprites/displace.png";
 
 // Load Images
 // eg. assets/images/buttons/[load_btn.png, unload_btn.png]
@@ -112,6 +115,7 @@ PIXI.loader
     .add(crane_base_file)
     .add(crane_arm_file)
     .add(port_file)
+    .add(displace_file)
     .load(setup)
 
 // Global sprites
@@ -139,11 +143,16 @@ function showIngame(){
 
 // Called just before rendering the first frame
 function setup(){
+    counter = 0.0;
     loadbtn = new PIXI.Sprite.fromImage(loadbtn_file);
     unloadbtn = new PIXI.Sprite.fromImage(unloadbtn_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
     background.height = HEIGHT;
     background.width = WIDTH;
+    // var wavesprite = new PIXI.Sprite.fromImage(wave_file);
+    // var wavey = new PIXI.filters.DisplacementFilter(wavesprite);
+    // cBack.addChild(wavesprite);
+    // background.filters = [wavey]
     clouds = new Cloud();
     cBack.addChild(background);
     port = new PIXI.Sprite.fromImage(port_file);
@@ -156,7 +165,7 @@ function setup(){
     cranearm.height=HEIGHT;
     cranearm.width=WIDTH;
     cranearm.anchor={x:0.1958,y:0.39125};
-    cranearm.position={x:250.624,y:281.7};
+    cranearm.position={x:250.624,y:282.7};
     cFront.addChild(cranearm);
 
     cranebase = new PIXI.Sprite.fromImage(crane_base_file);
@@ -172,10 +181,17 @@ function setup(){
     // stage.filters = [thisfil];
 
     // FIXME: this is just debug, switch sin to tan for fun
-    counter = 0.0;
-    interv2 = window.setInterval(function(){cranearm.scale.x=1+0.55*Math.sin(counter);counter +=0.01 },10)
+    //interv2 = window.setInterval(function(){cranearm.scale.x=1+0.55*Math.sin(counter);counter +=0.01 },10)
 
     renderStage();
+}
+
+function hoverCrane(xval){
+    vx0 = 250.624;
+    cl = 372
+    vd = xval - vx0;
+    vf = vd/cl;
+    cranearm.scale.x=vf;
 }
 
 function Cloud(){
@@ -225,9 +241,9 @@ function Ship(){
     this.sprite.position={x:WIDTH+5,y:HEIGHT-350};
     this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
-    this.leftlevel = parseInt(rinr(2,6));
-    this.middlelevel = parseInt(rinr(2,6));
-    this.rightlevel = parseInt(rinr(2,6));
+    this.leftlevel = parseInt(rinr(2,4));
+    this.middlelevel = parseInt(rinr(2,4));
+    this.rightlevel = parseInt(rinr(2,4));
     this.die = function(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
@@ -240,20 +256,58 @@ function Ship(){
     this.start = this.leftlevel + this.middlelevel + this.rightlevel;
     this.bobx = 0;
     this.boby = 0;
+    this.defy = this.sprite.y;
     this.move = function(){
-        this.sprite.x -= gameState.points/4+3;
+        dx = gameState.points/4+3;
+        this.sprite.x -= dx;
         // TODO: Bobbing...
         // this.bobx += rinr(-100,100)/100000.0;
         // this.boby += rinr(-100,100)/100000.0;
         // this.sprite.anchor = {x:this.bobx, y:this.boby};
+        ly = this.sprite.y;
+        sink = this.sumv()*5;
+        this.sprite.y=this.defy+sink;
+        div = this.sprite.y-ly;
+
+
+        for (var elem in this.cargo) {
+            if (this.cargo.hasOwnProperty(elem)) {
+                this.cargo[elem].sprite.x-=dx;
+                this.cargo[elem].sprite.y+=div;
+            }
+        }
+
         if (this.sprite.x+this.sprite.width<-4) {
             gameState.level += 1;
+            for (var elem in this.cargo) {
+                if (this.cargo.hasOwnProperty(elem)) {
+                    this.cargo[elem].die();
+                }
+            }
             this.die();
         }
+        if (this.sprite.x<-50 && this.sprite.x>-400){
+            this.activespot = this.sprite.x+900;
+            this.mode = 0;
+        } else if (this.sprite.x<-400 && this.sprite.x>-700){
+            this.activespot = this.sprite.x+1300;
+            this.mode = 1;
+        } else if (this.sprite.x<-700 && this.sprite.x>-1200){
+            this.activespot = this.sprite.x+1700;
+            this.mode = 2;
+        } else{
+            this.mode = null;
+            hoverCrane(630 + 100*Math.sin(counter));
+            counter +=0.01;
+            return
+        }
+        hoverCrane(this.activespot);
     }
+    this.mode = null
+    this.activespot = 0;
     this.sumv = function(){return this.leftlevel + this.middlelevel + this.rightlevel;};
     this.lose=function(){
-        if(sumv()<=1){
+        if(this.sumv()<1){
             gameState.mistakes += 1;
             return false;
         } else {
@@ -269,7 +323,53 @@ function Ship(){
             return true;
         }
     }
+    this.loadc=function(){
+        if (this.mode == null){
+            gameState.mistakes += 1;
+        } else if (this.mode == 0 && this.leftlevel < 6) {
+            this.cargo[this.cargo.length]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0-3+this.leftlevel*(-1*this.cargoh),1);
+            this.leftlevel += 1;
+        } else if (this.mode == 1 && this.middlelevel < 6) {
+            this.cargo[this.cargo.length]=new Container(this.sprite.x+1300,this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh),1);
+            this.middlelevel += 1;
+        } else if (this.mode == 2 && this.rightlevel < 6) {
+            this.cargo[this.cargo.length]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-3+this.rightlevel*(-1*this.cargoh),1);
+            this.rightlevel += 1;
+        }
+    }
+    this.cargo = [];
     this.movement = window.setInterval(function(){ship.move();},20);
+    // [800,1200,1600]
+    this.cargoh = 91;
+    this.shipv0 = 70;
+    for (var i = 0; i < this.leftlevel; i++) {
+        this.cargo[i]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0+i*(-1*this.cargoh),0);
+    }
+    for (var i = 0; i < this.middlelevel; i++) {
+        this.cargo[i+this.leftlevel]=new Container(this.sprite.x+1300,this.sprite.y+this.shipv0-3+i*(-1*this.cargoh),1);
+    }
+    for (var i = 0; i < this.rightlevel; i++) {
+        this.cargo[i+this.leftlevel+this.middlelevel]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-6+i*(-1*this.cargoh),2);
+    }
+}
+
+function Container(x,y, me){
+    this.ix = x;
+    this.iy = y;
+    this.mode = me.mode;
+    this.sprite=new PIXI.Sprite.fromImage(container_file);
+    this.sprite.position.set(x,y);
+    this.sprite.anchor.set(0.5,1);
+    this.filter = new PIXI.filters.ColorMatrixFilter();
+    this.filter.hue(rinr(0,360));
+    this.sprite.filters = [this.filter];
+    cMiddle.addChild(this.sprite);
+    this.set = function(x,y){
+        this.sprite.position.set(x,y);
+    }
+    this.die = function(){
+        cMiddle.removeChild(this.sprite);
+    }
 }
 
 // Request Animation Frame
@@ -285,6 +385,7 @@ function ingameLoad(){
     // Debug
     //gameState.points += 1;
     // TODO: Hitbox then change container
+    testship.loadc();
 }
 
 // Called on "Unload"-Press
