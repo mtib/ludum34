@@ -114,6 +114,7 @@ function showIngame(){
 }
 
 // TODO: Do Howler Stuff here
+// TODO: "rate" changes speed
 
 // Called just before rendering the first frame
 function setup(){
@@ -125,6 +126,7 @@ function setup(){
     cBack.addChild(background);
 
     showIngame();
+    testship = new Ship();
     renderStage();
 }
 
@@ -143,17 +145,25 @@ function State(){
 
 // Class for Ships
 function Ship(){
+    ship = this;
     this.start = rinr(3,15);
     this.end = 9;
     this.tint = rinr(50,255)*1 + rinr(50,255)*16 + rinr(50,255)*256;
     this.sprite = new PIXI.Sprite.fromImage(shitsprite_file);
+    this.sprite.scale={x:1.6,y:1.6};
+    this.sprite.position={x:WIDTH,y:HEIGHT-350};
+    cMiddle.addChild(this.sprite);
     this.die = function(){
-        // Remove Child from cMiddle
+        window.clearInterval(this.movement);
+        cMiddle.removeChild(this.sprite);
     };
     this.leftlevel = 0;
     this.middlelevel = 0;
     this.rightlevel = 0;
-
+    this.move = function(){
+        this.sprite.x -= gameState.points+3;
+    }
+    this.movement = window.setInterval(function(){ship.move();},20);
 }
 
 // Request Animation Frame
