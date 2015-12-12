@@ -27,6 +27,10 @@ var unloadKey = keyboard(68);
 unloadKey.press=function(){
     versionText.text="unloading";
 };
+var fuckKey = keyboard(70);
+fuckKey.press=function(){
+    versionText.text="FUCK YOU!";
+}
 
 var gameState = new State();
 
