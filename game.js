@@ -36,10 +36,10 @@ stage.addChild(cGui);
 
 // Version Text (top left)
 var versionconfig = fontConfig;
-var actionconfig = {font: "80px 'rockfire'", fill: "#000000", align:"center"};
-var statsconfig = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
-var actionbgconfig = {font: "80px 'rockfire'", fill: "#FFFFFF", align:"center"};
-var statsbgconfig = {font: "28px 'rockfire'", fill: "#FFFFFF", align:"right"};
+var actionconfig = {font: "80px 'rockfire'", fill: "#000", align:"center"}; // #000 = #000000 and
+var statsconfig = {font: "28px 'rockfire'", fill: "#FFF", align:"right"};   // #FFF = #FFFFFF
+var actionbgconfig = {font: "80px 'rockfire'", fill: "#FFF", align:"center"};
+var statsbgconfig = {font: "28px 'rockfire'", fill: "#000", align:"right"};
 
 var versionText = new PIXI.Text("Version 0.02d", versionconfig);
 var actionText = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
@@ -58,7 +58,7 @@ animstatText.position = {x:WIDTH-130, y:HEIGHT-5};
 animstatText.anchor = {x:1,y:1}
 actionbgText.position = {x:WIDTH/2+2,y:HEIGHT/2+2};
 actionbgText.anchor = {x:0.5,y:2.25};
-statsbgText.position = {x:WIDTH-10+2, y:HEIGHT-5+2};
+statsbgText.position = {x:WIDTH-10+4, y:HEIGHT-5+4};
 statsbgText.anchor = {x:1,y:1}
 animstatbgText.position = {x:WIDTH-130+2, y:HEIGHT-5+2};
 animstatbgText.anchor = {x:1,y:1}
