@@ -253,7 +253,7 @@ function Ship(){
     }
     this.sumv = function(){return this.leftlevel + this.middlelevel + this.rightlevel;};
     this.lose=function(){
-        if(sumv()<=1){
+        if(this.sumv()<=1){
             gameState.mistakes += 1;
             return false;
         } else {
