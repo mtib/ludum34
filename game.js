@@ -316,6 +316,7 @@ function Ship(){
             } else if (this.middlelevel>0){
                 this.middlelevel -= 1;
             } else if (this.rightlevel>0){
+
                 this.rightlevel -= 1;
             } else {
                 return false;
@@ -326,13 +327,13 @@ function Ship(){
     this.loadc=function(){
         if (this.mode == null){
             gameState.mistakes += 1;
-        } else if (this.mode == 0 && this.leftlevel < 6) {
+        } else if (this.mode == 0 && this.leftlevel < 5) {
             this.cargo[this.cargo.length]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0-3+this.leftlevel*(-1*this.cargoh),1);
             this.leftlevel += 1;
-        } else if (this.mode == 1 && this.middlelevel < 6) {
+        } else if (this.mode == 1 && this.middlelevel < 5) {
             this.cargo[this.cargo.length]=new Container(this.sprite.x+1300,this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh),1);
             this.middlelevel += 1;
-        } else if (this.mode == 2 && this.rightlevel < 6) {
+        } else if (this.mode == 2 && this.rightlevel < 5) {
             this.cargo[this.cargo.length]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-3+this.rightlevel*(-1*this.cargoh),1);
             this.rightlevel += 1;
         }
