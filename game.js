@@ -324,7 +324,6 @@ function Ship(){
             } else if (this.middlelevel>0){
                 this.middlelevel -= 1;
             } else if (this.rightlevel>0){
-
                 this.rightlevel -= 1;
             } else {
                 return false;
@@ -347,6 +346,7 @@ function Ship(){
         }
     }
     this.cargo = [];
+
     this.movement = window.setInterval(function(){ship.move();},10);
     // [800,1200,1600]
     this.cargoh = 91;
@@ -410,7 +410,7 @@ function ingameUnload(){
 // Called in-between rendering
 // should be used for logic
 speedswitch = {1:10, 2:20, 3:50, 4:70, 5:100, 6:200};
-speedlevel = {0:2,1:2.3,2:2.5,3:2.7,4:3,5:4,6:5};
+speedlevel = {0:2,1:2.25,2:2.5,3:2.75,4:3,5:3.5,6:4};
 currlevel = 0;
 function renderLoop(){
     try {
