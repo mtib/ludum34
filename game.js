@@ -48,6 +48,7 @@ var unloadKey = keyboard(68);
 unloadKey.press=function(){
     ingameUnload();
 };
+// Don't worry about this one
 var fuckKey = keyboard(70);
 fuckKey.press=function(){
     versionText.text="FUCK YOU!";
