@@ -172,6 +172,7 @@ function setup(){
     // stage.filters = [thisfil];
 
     // FIXME: this is just debug, switch sin to tan for fun
+    // If you switch cos for sin, it goes the other way around
     counter = 0.0;
     interv2 = window.setInterval(function(){cranearm.scale.x=1+0.55*Math.sin(counter);counter +=0.01 },10)
 
