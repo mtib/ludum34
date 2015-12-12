@@ -140,10 +140,18 @@ function showIngame(){
 
 // TODO: Do Howler Stuff here
 // TODO: "rate" changes speed
+var gameSound = new Howl({
+    urls: ["assets/music/BuutonBoatBashingTheme.ogg"],
+    loop: true,
+    volume: 0.4,
+    rate: 2,
+    onend: function() { /* ... */}
+});
 
 // Called just before rendering the first frame
 function setup(){
     counter = 0.0;
+    gameSound.play();
     loadbtn = new PIXI.Sprite.fromImage(loadbtn_file);
     unloadbtn = new PIXI.Sprite.fromImage(unloadbtn_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
@@ -339,7 +347,7 @@ function Ship(){
         }
     }
     this.cargo = [];
-    this.movement = window.setInterval(function(){ship.move();},20);
+    this.movement = window.setInterval(function(){ship.move();},10);
     // [800,1200,1600]
     this.cargoh = 91;
     this.shipv0 = 70;
@@ -401,6 +409,22 @@ function ingameUnload(){
 
 // Called in-between rendering
 // should be used for logic
+speedswitch = {1:10, 2:20, 3:50, 4:70, 5:100, 6:200};
+speedlevel = {0:2,1:2.3,2:2.5,3:2.7,4:3,5:4,6:5};
+currlevel = 0;
 function renderLoop(){
+    try {
+        if(gameState.points >= speedswitch[currlevel+1]){
+            currlevel = currlevel+1;
+            gameSound._rate=speedlevel[currlevel];
+            gameSound.fade(0.4,0,10);
+            gameSound.pause();
+            gameSound.fade(0,0.4,10);
+            gameSound.play();
+        }
+    } catch (e) {
 
+    } finally {
+
+    }
 }
