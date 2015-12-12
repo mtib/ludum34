@@ -1,14 +1,14 @@
 # Ludum Dare 34
 Play at [ld34.rateld.de](http://ld34.rateld.de)!
 ## Participants
-| Name   | Alias                                                                 | Part              |
-| ---    | ---                                                                   | ---               |
+| Name                                    | Alias                                | Part              |
+| ---                                     | ---                                  | ---               |
 | [Markus](https://github.com/tibyte)     | [TiByte](http://tibyte.net)          | Lead Programmer   |
 | [Kilian](https://github.com/MallothRha) | [Malloth Rha](http://rha.tibyte.net) | Musician          |
 | [Lucas](https://github.com/LFalch)  	  | [LFalch](http://lfalch.com/)         | Programmer        |
-| Aileen |                                                                       | Art Designer      |
-| Enrico |                                                                       | Q&A Tester        |
-| Micha  |                                                                       | Programmer        |
+| Aileen                                  |                                      | Art Designer      |
+| Enrico                                  |                                      | Q&A Tester        |
+| Micha                                   |                                      | Programmer        |
 
 ### Own Rules
 - Music in .ogg format
