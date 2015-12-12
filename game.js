@@ -127,6 +127,11 @@ function setup(){
 
     showIngame();
     testship = new Ship();
+
+    // Filters
+    // thisfil = new PIXI.filters.ColorMatrixFilter();
+    // stage.filters = [thisfil];
+
     renderStage();
 }
 
@@ -148,11 +153,12 @@ function Ship(){
     ship = this;
     this.start = rinr(3,15);
     this.end = 9;
-    this.tint = rinr(100,255)*1 + rinr(100,255)*16 + rinr(100,255)*256;
+    this.filter = new PIXI.filters.ColorMatrixFilter();
+    this.filter.hue(rinr(0,360));
     this.sprite = new PIXI.Sprite.fromImage(shitsprite_file);
     this.sprite.scale={x:1.6,y:1.6};
     this.sprite.position={x:WIDTH+5,y:HEIGHT-350};
-    this.sprite.tint = this.tint;
+    this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
     this.die = function(){
         window.clearInterval(this.movement);
