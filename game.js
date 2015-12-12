@@ -43,10 +43,10 @@ var statsbgconfig  = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
 
 var versionText    = new PIXI.Text("Version 0.02d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
-var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
-var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
 var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionbgconfig);
+var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
 var statsbgText    = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig);
+var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
 var animstatbgText = new PIXI.Text("n\nm\nN", statsbgconfig);
 
 versionText   .position = {x:10,          y:10};
