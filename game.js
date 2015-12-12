@@ -150,12 +150,16 @@ function setup(){
     loadbtn = new PIXI.Sprite.fromImage(loadbtn_file);
     unloadbtn = new PIXI.Sprite.fromImage(unloadbtn_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
+    // xblurb = new PIXI.filters.BlurXFilter();
+    // background.filters = [xblurb];
     background.height = HEIGHT;
     background.width = WIDTH;
-    // var wavesprite = new PIXI.Sprite.fromImage(wave_file);
-    // var wavey = new PIXI.filters.DisplacementFilter(wavesprite);
-    // cBack.addChild(wavesprite);
-    // background.filters = [wavey]
+    var wavesprite = new PIXI.Sprite.fromImage(displace_file);
+    wavesprite.scale={x:2,y:2};
+    var wavey = new PIXI.filters.DisplacementFilter(wavesprite);
+    var wavedisp = window.setInterval(function() {wavesprite.position.x += rinr(-100,100)/100.0;wavesprite.position.y += rinr(-100,100)/100.0;},100);
+    cBack.addChild(wavesprite);
+    background.filters = [wavey]
     clouds = new Cloud();
     cBack.addChild(background);
     port = new PIXI.Sprite.fromImage(port_file);
@@ -183,7 +187,7 @@ function setup(){
     // thisfil = new PIXI.filters.ColorMatrixFilter();
     // stage.filters = [thisfil];
 
-    // FIXME: this is just debug, switch sin to tan for fun
+    // this is just debug, switch sin to tan for fun
     //interv2 = window.setInterval(function(){cranearm.scale.x=1+0.55*Math.sin(counter);counter +=0.01 },10)
 
     renderStage();
