@@ -151,7 +151,7 @@ function State(){
 // Class for Ships
 function Ship(){
     ship = this;
-    this.start = rinr(3,15);
+    this.start = parseInt(rinr(3,15));
     this.end = 9;
     this.filter = new PIXI.filters.ColorMatrixFilter();
     this.filter.hue(rinr(0,360));
@@ -164,7 +164,11 @@ function Ship(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
         testship = new Ship();
+        var sum = this.leftlevel + this.middlelevel + this.rightlevel;
+        gameState.mistakes += abs(this.end-sum);
+        gameState.points += abs(this.start-sum);
     };
+    // FIXME: If this part generates properly, it'll work fine!
     this.leftlevel = 0;
     this.middlelevel = 0;
     this.rightlevel = 0;
