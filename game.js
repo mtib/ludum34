@@ -18,14 +18,15 @@ stage.addChild(cGui);
 
 var versionText = new PIXI.Text("Version 0.01d", fontConfig);
 cGui.addChild(versionText);
+versionText.position = {x:10,y:10};
 
 var loadKey = keyboard(65);
 loadKey.press=function(){
-    versionText.text="loading";
+    ingameLoad();
 };
 var unloadKey = keyboard(68);
 unloadKey.press=function(){
-    versionText.text="unloading";
+    ingameUnload();
 };
 
 var gameState = new State();
@@ -48,10 +49,28 @@ function State(){
     this.mistakes = 0;
 }
 
+function Ship(st, en, typ){
+    this.start = st;
+    this.end = en;
+    this.typ = typ;
+    this.sprite = null;
+    this.die = function(){
+        // Remove Child from cMiddle
+    };
+}
+
 function renderStage(){
     requestAnimationFrame(renderStage);
     renderLoop();
     renderer.render(stage);
+}
+
+function ingameLoad(){
+    versionText.text="loading";
+}
+
+function ingameUnload(){
+    versionText.text="unloading";
 }
 
 function renderLoop(){
