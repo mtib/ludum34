@@ -7,6 +7,7 @@
     font-weight: lighter;
     padding: 0;
     margin: 0;
+    line-height: .85em;
 }
 body{
     background-color: rgb(36, 38, 43);
@@ -23,10 +24,18 @@ p{
     font-size: 1.7em;
     margin: .1em 0;
 }
-div#game{
+div#game, div.info{
     width: 1280px;
     margin: auto;
 }
 canvas{
     margin-top: 2em;
+}
+a{
+    color: rgb(0, 224, 255);
+    text-decoration: none;
+}
+
+b{
+    text-decoration: underline;
 }
