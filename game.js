@@ -172,8 +172,8 @@ function setup(){
     cranearm = new PIXI.Sprite.fromImage(crane_arm_file);
     cranearm.height=HEIGHT;
     cranearm.width=WIDTH;
-    cranearm.anchor={x:0.1958,y:0.39125};
-    cranearm.position={x:250.624,y:282.7};
+    cranearm.anchor   = {x:0.1958,  y:0.39125};
+    cranearm.position = {x:250.624, y:282.7};
     cFront.addChild(cranearm);
 
     cranebase = new PIXI.Sprite.fromImage(crane_base_file);
