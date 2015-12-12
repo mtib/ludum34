@@ -35,33 +35,34 @@ stage.addChild(cFront);
 stage.addChild(cGui);
 
 // Version Text (top left)
-var versionconfig = fontConfig;
-var actionconfig = {font: "65px 'rockfire'", fill: "#6DA1D7", align:"center"};
-var statsconfig = {font: "28px 'rockfire'", fill: "#6DA1D7", align:"right"};
+var versionconfig  = fontConfig;
+var actionconfig   = {font: "65px 'rockfire'", fill: "#6DA1D7", align:"center"};
+var statsconfig    = {font: "28px 'rockfire'", fill: "#6DA1D7", align:"right"};
 var actionbgconfig = {font: "65px 'rockfire'", fill: "#000000", align:"center"};
-var statsbgconfig = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
+var statsbgconfig  = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
 
-var versionText = new PIXI.Text("Version 0.02d", versionconfig);
-var actionText = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
-var statsText = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
-var animstatText = new PIXI.Text("n\nm\nN", statsconfig);
-var actionbgText = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionbgconfig);
-var statsbgText = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig);
+var versionText    = new PIXI.Text("Version 0.02d", versionconfig);
+var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
+var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
+var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
+var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionbgconfig);
+var statsbgText    = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig);
 var animstatbgText = new PIXI.Text("n\nm\nN", statsbgconfig);
 
-versionText.position = {x:10,y:10};
-actionText.position = {x:2*WIDTH/3,y:HEIGHT/2};
-actionbgText.position = {x:2*WIDTH/3+2,y:HEIGHT/2+2};
-actionText.anchor = {x:0.5,y:2.25};
-actionbgText.anchor = {x:0.5,y:2.25};
-statsText.position = {x:WIDTH-10, y:HEIGHT-5};
-statsbgText.position = {x:WIDTH-10+2, y:HEIGHT-5+2};
-statsText.anchor = {x:1,y:1}
-statsbgText.anchor = {x:1,y:1}
-animstatText.position = {x:WIDTH-130, y:HEIGHT-5};
+versionText   .position = {x:10,          y:10};
+actionText    .position = {x:2*WIDTH/3,   y:HEIGHT/2};
+actionbgText  .position = {x:2*WIDTH/3+2, y:HEIGHT/2+2};
+statsText     .position = {x:WIDTH-10,    y:HEIGHT-5};
+statsbgText   .position = {x:WIDTH-10+2,  y:HEIGHT-5+2};
+animstatText  .position = {x:WIDTH-130,   y:HEIGHT-5};
 animstatbgText.position = {x:WIDTH-130+2, y:HEIGHT-5+2};
-animstatText.anchor = {x:1,y:1}
-animstatbgText.anchor = {x:1,y:1}
+
+actionText    .anchor = {x:0.5, y:2.25};
+actionbgText  .anchor = {x:0.5, y:2.25};
+statsText     .anchor = {x:1,   y:1};
+statsbgText   .anchor = {x:1,   y:1};
+animstatText  .anchor = {x:1,   y:1};
+animstatbgText.anchor = {x:1,   y:1};
 
 // Adding info text
 cGui.addChild(actionbgText);
@@ -88,16 +89,16 @@ unloadKey.press=function(){
 var gameState = new State();
 
 // Image Locations
-var loadbtn_file = "assets/image/buttons/load_btn.png";
-var unloadbtn_file = "assets/image/buttons/unload_btn.png";
-var seabg_file = "assets/image/bg/sea_layer.png";
+var loadbtn_file    = "assets/image/buttons/load_btn.png";
+var unloadbtn_file  = "assets/image/buttons/unload_btn.png";
+var sky_file        = "assets/image/bg/sky_layer.png";
+var seabg_file      = "assets/image/bg/sea_layer.png";
 var shitsprite_file = "assets/image/sprites/boat_layer.png";
 var crane_base_file = "assets/image/sprites/cran_layer.png";
-var crane_arm_file = "assets/image/sprites/cranarm_layer.png";
-var port_file = "assets/image/sprites/port_layer.png";
-var sky_file = "assets/image/bg/sky_layer.png";
-var container_file = "assets/image/sprites/container_layer.png";
-var displace_file = "assets/image/sprites/displace.png";
+var crane_arm_file  = "assets/image/sprites/cranarm_layer.png";
+var port_file       = "assets/image/sprites/port_layer.png";
+var container_file  = "assets/image/sprites/container_layer.png";
+var displace_file   = "assets/image/sprites/displace.png";
 //var wave_file = "assets/image/sprites/displace.png";
 
 // Load Images
@@ -114,8 +115,8 @@ PIXI.loader
     .load(setup)
 
 // Global sprites
-var loadbtn = null;
-var unloadbtn = null;
+var loadbtn    = null;
+var unloadbtn  = null;
 var background = null;
 
 function showIngame(){
@@ -147,8 +148,8 @@ var gameSound = new Howl({
 function setup(){
     counter = 0.0;
     gameSound.play();
-    loadbtn = new PIXI.Sprite.fromImage(loadbtn_file);
-    unloadbtn = new PIXI.Sprite.fromImage(unloadbtn_file);
+    loadbtn    = new PIXI.Sprite.fromImage(loadbtn_file);
+    unloadbtn  = new PIXI.Sprite.fromImage(unloadbtn_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
     background.height = HEIGHT;
     background.width = WIDTH;
@@ -239,21 +240,23 @@ function Ship(){
     this.end = 9;
     this.filter = new PIXI.filters.ColorMatrixFilter();
     this.filter.hue(rinr(0,360));
+
     this.sprite = new PIXI.Sprite.fromImage(shitsprite_file);
     this.sprite.scale={x:1.6,y:1.6};
     this.sprite.position={x:WIDTH+5,y:HEIGHT-350};
     this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
-    this.leftlevel = parseInt(rinr(2,4));
-    this.middlelevel = parseInt(rinr(2,4));
-    this.rightlevel = parseInt(rinr(2,4));
+
+    this.leftlevel   = parseInt(rinr(2,5));
+    this.middlelevel = parseInt(rinr(2,5));
+    this.rightlevel  = parseInt(rinr(2,5));
     this.die = function(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
         testship = new Ship(); // This seems very odd to hardcode
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
         gameState.mistakes += abs(this.end-sum);
-        gameState.points += abs(this.start-sum);
+        gameState.points   += abs(this.start-sum);
     };
     // FIXME: If this part generates properly, it'll work fine!
     this.start = this.leftlevel + this.middlelevel + this.rightlevel;
@@ -267,16 +270,16 @@ function Ship(){
         // this.bobx += rinr(-100,100)/100000.0;
         // this.boby += rinr(-100,100)/100000.0;
         // this.sprite.anchor = {x:this.bobx, y:this.boby};
-        ly = this.sprite.y;
+        ly   = this.sprite.y;
         sink = this.sumv()*5;
         this.sprite.y=this.defy+sink;
-        div = this.sprite.y-ly;
+        div  = this.sprite.y-ly;
 
 
         for (var elem in this.cargo) {
             if (this.cargo.hasOwnProperty(elem)) {
-                this.cargo[elem].sprite.x-=dx;
-                this.cargo[elem].sprite.y+=div;
+                this.cargo[elem].sprite.x -= dx;
+                this.cargo[elem].sprite.y += div;
             }
         }
 
@@ -289,19 +292,20 @@ function Ship(){
             }
             this.die();
         }
-        if (this.sprite.x<-50 && this.sprite.x>-400){
-            this.activespot = this.sprite.x+900;
+
+        if (this.sprite.x < -50 && this.sprite.x > -400){
+            this.activespot = this.sprite.x + 900;
             this.mode = 0;
-        } else if (this.sprite.x<-400 && this.sprite.x>-700){
-            this.activespot = this.sprite.x+1300;
+        } else if (this.sprite.x < -400 && this.sprite.x > -700){
+            this.activespot = this.sprite.x + 1300;
             this.mode = 1;
-        } else if (this.sprite.x<-700 && this.sprite.x>-1200){
-            this.activespot = this.sprite.x+1700;
+        } else if (this.sprite.x < -700 && this.sprite.x > -1200){
+            this.activespot = this.sprite.x + 1700;
             this.mode = 2;
         } else{
             this.mode = null;
             hoverCrane(630 + 100*Math.sin(counter));
-            counter +=0.01;
+            counter += 0.01;
             return
         }
         hoverCrane(this.activespot);
@@ -310,16 +314,16 @@ function Ship(){
     this.activespot = 0;
     this.sumv = function(){return this.leftlevel + this.middlelevel + this.rightlevel;};
     this.lose=function(){
-        if(this.sumv()<1){
+        if(this.sumv() < 1){
             gameState.mistakes += 1;
             return false;
         } else {
             if(this.leftlevel>0){
-                this.leftlevel -= 1;
+                this.leftlevel   -= 1;
             } else if (this.middlelevel>0){
                 this.middlelevel -= 1;
             } else if (this.rightlevel>0){
-                this.rightlevel -= 1;
+                this.rightlevel  -= 1;
             } else {
                 return false;
             }
@@ -330,30 +334,30 @@ function Ship(){
         if (this.mode == null){
             gameState.mistakes += 1;
         } else if (this.mode == 0 && this.leftlevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0-3+this.leftlevel*(-1*this.cargoh),1);
+            this.cargo[this.cargo.length]=new Container(this.sprite.x + 900 , this.sprite.y + this.shipv0 - 3 + this.leftlevel   * (-1*this.cargoh), 1);
             this.leftlevel += 1;
         } else if (this.mode == 1 && this.middlelevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+1300,this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh),1);
+            this.cargo[this.cargo.length]=new Container(this.sprite.x + 1300, this.sprite.y + this.shipv0 - 3 + this.middlelevel * (-1*this.cargoh), 1);
             this.middlelevel += 1;
         } else if (this.mode == 2 && this.rightlevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-3+this.rightlevel*(-1*this.cargoh),1);
+            this.cargo[this.cargo.length]=new Container(this.sprite.x + 1700, this.sprite.y + this.shipv0 - 3 + this.rightlevel  * (-1*this.cargoh), 1);
             this.rightlevel += 1;
         }
     }
     this.cargo = [];
 
-    this.movement = window.setInterval(function(){ship.move();},10);
+    this.movement = window.setInterval(function(){ship.move();}, 10);
     // [800,1200,1600]
     this.cargoh = 91;
     this.shipv0 = 70;
     for (var i = 0; i < this.leftlevel; i++) {
-        this.cargo[i]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0+i*(-1*this.cargoh),0);
+        this.cargo[i] =                                 new Container(this.sprite.x +  900, this.sprite.y + this.shipv0     + i * (-1*this.cargoh), 0);
     }
     for (var i = 0; i < this.middlelevel; i++) {
-        this.cargo[i+this.leftlevel]=new Container(this.sprite.x+1300,this.sprite.y+this.shipv0-3+i*(-1*this.cargoh),1);
+        this.cargo[i+this.leftlevel] =                  new Container(this.sprite.x + 1300, this.sprite.y + this.shipv0 - 3 + i * (-1*this.cargoh), 1);
     }
     for (var i = 0; i < this.rightlevel; i++) {
-        this.cargo[i+this.leftlevel+this.middlelevel]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-6+i*(-1*this.cargoh),2);
+        this.cargo[i+this.leftlevel+this.middlelevel] = new Container(this.sprite.x + 1700, this.sprite.y + this.shipv0 - 6 + i * (-1*this.cargoh), 2);
     }
 }
 
