@@ -250,7 +250,7 @@ function Ship(){
     this.die = function(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
-        testship = new Ship();
+        testship = new Ship(); // This seems very odd to hardcode
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
         gameState.mistakes += abs(this.end-sum);
         gameState.points += abs(this.start-sum);
