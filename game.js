@@ -20,7 +20,13 @@ var versionText = new PIXI.Text("Version 0.01d", fontConfig);
 cGui.addChild(versionText);
 
 var loadKey = keyboard(65);
+loadKey.press=function(){
+    versionText.text="loading";
+};
 var unloadKey = keyboard(68);
+unloadKey.press=function(){
+    versionText.text="unloading";
+};
 
 var gameState = new State();
 

@@ -14,6 +14,18 @@ body{
 div{
 
 }
+h1{
+    font-size: 2.5em;
+    margin: 0em 1em;
+}
+p{
+    font-size: 1.7em;
+    margin: .1em 0;
+}
 div#game{
-    
+    width: 1280px;
+    margin: auto;
+}
+canvas{
+    margin: auto;
 }
