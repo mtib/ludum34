@@ -132,8 +132,8 @@ function setup(){
 
 // Class for Gamestate
 function State(){
-    this.level = 0;
-    this.name = "";
+    this.level = 1;
+    this.name = "Testie";
     this.mistakes = 0;
     this.points = 0;
     this.display = function(){
@@ -148,20 +148,32 @@ function Ship(){
     ship = this;
     this.start = rinr(3,15);
     this.end = 9;
-    this.tint = rinr(50,255)*1 + rinr(50,255)*16 + rinr(50,255)*256;
+    this.tint = rinr(100,255)*1 + rinr(100,255)*16 + rinr(100,255)*256;
     this.sprite = new PIXI.Sprite.fromImage(shitsprite_file);
     this.sprite.scale={x:1.6,y:1.6};
-    this.sprite.position={x:WIDTH,y:HEIGHT-350};
+    this.sprite.position={x:WIDTH+5,y:HEIGHT-350};
+    this.sprite.tint = this.tint;
     cMiddle.addChild(this.sprite);
     this.die = function(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
+        testship = new Ship();
     };
     this.leftlevel = 0;
     this.middlelevel = 0;
     this.rightlevel = 0;
+    this.bobx = 0;
+    this.boby = 0;
     this.move = function(){
         this.sprite.x -= gameState.points+3;
+        // TODO: Bobbing...
+        // this.bobx += rinr(-100,100)/100000.0;
+        // this.boby += rinr(-100,100)/100000.0;
+        // this.sprite.anchor = {x:this.bobx, y:this.boby};
+        if (this.sprite.x+this.sprite.width<-4) {
+            gameState.level += 1;
+            this.die();
+        }
     }
     this.movement = window.setInterval(function(){ship.move();},20);
 }
