@@ -119,12 +119,12 @@ var unloadbtn = null;
 var background = null;
 
 function showIngame(){
-    loadbtn.position = {x: 10,y: HEIGHT-100};
+    loadbtn.position = {x: 20,y: HEIGHT-100};
     loadbtn.height = 93;
-    loadbtn.width = 190;
-    unloadbtn.position = {x: loadbtn.width + 15, y: HEIGHT-100};
+    loadbtn.width = 160;
+    unloadbtn.position = {x: loadbtn.width + 35, y: HEIGHT-100};
     unloadbtn.height = 93;
-    unloadbtn.width = 190;
+    unloadbtn.width = 160;
     cGui.addChild(loadbtn);
     cGui.addChild(unloadbtn);
     loadbtn.interactive = true;
@@ -155,9 +155,10 @@ function setup(){
     background.height = HEIGHT;
     background.width = WIDTH;
     var wavesprite = new PIXI.Sprite.fromImage(displace_file);
-    wavesprite.scale={x:2,y:2};
+    wavesprite.scale={x:1,y:1};
     var wavey = new PIXI.filters.DisplacementFilter(wavesprite);
-    var wavedisp = window.setInterval(function() {wavesprite.position.x += rinr(-100,100)/100.0;wavesprite.position.y += rinr(-100,100)/100.0;},100);
+    var a = {x:0,y:0};
+    var wavedisp = window.setInterval(function() {a.x += rinr(-30,30)/100.0; a.y +=rinr(-30,30)/100.0; wavesprite.position.x += a.x;wavesprite.position.y += a.y; a.x/=1.1; a.y/=1.1;},10);
     cBack.addChild(wavesprite);
     background.filters = [wavey]
     clouds = new Cloud();
@@ -334,13 +335,13 @@ function Ship(){
         if (this.mode == null){
             gameState.mistakes += 1;
         } else if (this.mode == 0 && this.leftlevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0-3+this.leftlevel*(-1*this.cargoh),1);
+            this.cargo[this.cargo.length]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0+this.leftlevel*(-1*this.cargoh),1);
             this.leftlevel += 1;
         } else if (this.mode == 1 && this.middlelevel < 5) {
             this.cargo[this.cargo.length]=new Container(this.sprite.x+1300,this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh),1);
             this.middlelevel += 1;
         } else if (this.mode == 2 && this.rightlevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-3+this.rightlevel*(-1*this.cargoh),1);
+            this.cargo[this.cargo.length]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-6+this.rightlevel*(-1*this.cargoh),1);
             this.rightlevel += 1;
         }
     }
