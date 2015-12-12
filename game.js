@@ -5,13 +5,14 @@ var HEIGHT = 720;
 // Initialize Renderer
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT, {antialiasing: false, transparent: false, resolution: 1});
 renderer.backgroundColor = 0xFF00FF;
+document.getElementById("game").appendChild(renderer.view);
 
 // Master Containter
 var stage = new PIXI.Container();
 
 // Config goes here:
 var fontConfig = {font: "30px 'rockfire'", fill: "#000000", align: "left"};
-var relcenter = {x: 0.5, y: 0.5};
+var relcenter = (0.5,0.5);
 
 // Layers
 var cBack = new PIXI.Container();
@@ -34,7 +35,7 @@ stage.addChild(cFront);
 stage.addChild(cGui);
 
 // Version Text (top left)
-var versionText = new PIXI.Text("Version 0.01d", fontConfig);
+var versionText = new PIXI.Text("Version 0.02d", fontConfig);
 cGui.addChild(versionText);
 versionText.position = {x:10,y:10};
 
@@ -58,17 +59,41 @@ fuckKey.press=function(){
 // init Gamestate
 var gameState = new State();
 
+// Image Locations
+var loadbtn_file = "assets/image/buttons/load_btn.png";
+var unloadbtn_file = "assets/image/buttons/unload_btn.png";
+
 // Load Images
 // eg. assets/images/buttons/[load_btn.png, unload_btn.png]
-/*
-
 PIXI.loader
-    .add("..");
+    .add(loadbtn_file)
+    .add(unloadbtn_file)
+    .load(setup)
 
-*/
+// Global sprites
+loadbtn = new PIXI.Sprite.fromImage(loadbtn_file)
+unloadbtn = new PIXI.Sprite.fromImage(unloadbtn_file)
+
+function showIngame(){
+    loadbtn.position = {x: 10,y: HEIGHT-100};
+    loadbtn.height = 93;
+    loadbtn.width = 190;
+    unloadbtn.position = {x: loadbtn.width + 15, y: HEIGHT-100};
+    unloadbtn.height = 93;
+    unloadbtn.width = 190;
+    cGui.addChild(loadbtn);
+    cGui.addChild(unloadbtn);
+    loadbtn.interactive = true;
+    unloadbtn.interactive = true;
+    loadbtn.click = function(data){console.log("load"); loadbtn.rotation=-0.03;window.setTimeout(function(){loadbtn.rotation=0.03;window.setTimeout(function(){loadbtn.rotation=0},200)},200)};
+    unloadbtn.click = function(data){console.log("unload"); unloadbtn.rotation=-0.03;window.setTimeout(function(){unloadbtn.rotation=0.03;window.setTimeout(function(){unloadbtn.rotation=0},200)},200)};
+}
+
+// TODO: Do Howler Stuff here
 
 // Called just before rendering the first frame
 function setup(){
+    showIngame();
     renderStage();
 }
 
@@ -112,6 +137,3 @@ function ingameUnload(){
 function renderLoop(){
 
 }
-
-// Start Rendering
-setup();
