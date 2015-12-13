@@ -1,11 +1,12 @@
 <?
     require("connection.php");
 
+    $username = $_POST['username'];
     $pts      = $_POST['points'];
     $mistakes = $_POST['mistakes'];
     $tm       = $_POST['time_taken'];
 
-    if(!(isset($pts) && isset($mistakes) && isset($tm))){
+    if(!(isset($username) && isset($pts) && isset($mistakes) && isset($tm))){
         die('Invalid post request');
     }
 
@@ -13,15 +14,16 @@
 
     $prep = $con->prepare("INSERT INTO `shipload`.`scores` (
     `id` ,
-    `points` ,
-    `mistakes` ,
+    `name`,
+    `points`,
+    `mistakes`,
     `time_taken`
     )
     VALUES (
-    NULL, ?, ?, ?
+    NULL, ?, ?, ?, ?
     );");
 
-    $prep->bind_param('iii', $pts, $mistakes, $tm);
+    $prep->bind_param('siii', $username, $pts, $mistakes, $tm);
     $prep->execute();
     $prep->close();
 
