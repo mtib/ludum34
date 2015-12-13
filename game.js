@@ -401,6 +401,8 @@ function State(){
     }
     this.changeGoal(this.goal);
     window.setInterval(function(){gameState.display();},100);
+    this.username = "Bobby";
+    this.usernameask = false;
     this.stopgame = function(){
         this.playing = false;
         cGui.addChild(startbtn);
@@ -410,12 +412,19 @@ function State(){
             menuSound.play();
         }
         ylose.text = "YOU LOST";
+        if(!this.usernameask){
+            this.usernameask = true;
+            this.username = window.promt("Your Username:");
+            if(this.username.length==0){
+                this.username = "Bobby";
+            }
+        }
         var xhttp;
         if(window.XMLHttpRequest) {
             xhttp = new XMLHttpRequest();
             xhttp.open("POST", "web/exec/submit_score.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+100);
+            xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+100+"&username="+escape(this.username));
         } else {
             // doesn't support "new" ajax
         }
