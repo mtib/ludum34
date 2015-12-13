@@ -123,10 +123,10 @@ var menuSound = new Howl({
 });
 // start
 menuSound.play() // or
-menuSound.fadeIn(1000) // TODO need to verify this..
+menuSound.fade(0,1,1000)
 // ... stop
 menuSound.stop() // or
-menuSound.fadeOut(1000)
+menuSound.fadeOut(1,0,1000)
 ```
 sounds
 ```javascript

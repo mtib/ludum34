@@ -10,8 +10,6 @@ Enrico                   - Q&A Tester
 Using Libraries: Pixi.js and Howler.js
 date: 13.12.2015 for LD34
 theme: Two Buttons Control, Growing
-
-// TODO: maybe "you lost text";
 */
 
 // Canvas Size
@@ -108,7 +106,6 @@ cGui.addChild(numberText);
 cGui.addChild(versionText);
 
 // Keyboard IO
-// TODO on screen keys (interactive=true)
 var loadKey = keyboard(65);
 loadKey.press=function(){
     ingameLoad();
@@ -390,7 +387,7 @@ function State(){
             bleepSound.play();
         }
     }
-    this.maxmistakes = 30; // TODO: return to menu + menu; 30 seems fine
+    this.maxmistakes = 30; // 30 seems fine
     this.display = function(){
         // mistake, point, ship;
         animstatText.text=this.mistakes+"\n"+this.points+"\n"+this.level;
@@ -421,7 +418,8 @@ function Ship(){
 
     // Filter to change hue
     this.filter = new PIXI.filters.ColorMatrixFilter();
-    this.filter.hue(rinr(0,360));
+    hr = rinr(0,360);
+    this.filter.hue(hr);
 
     // load sprite
     this.sprite = new PIXI.Sprite.fromImage(shitsprite_file);
@@ -447,9 +445,18 @@ function Ship(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
+        should = sum-this.end;
         nm = abs(this.end-sum);
         gameState.mistakes += nm
         np = abs(this.start-sum);
+        if(should<0){
+            // would have needed to add more;
+            np += should;
+        } else {
+            // have add too many;
+            np -= should;
+        }
+        if (this.start-sum)
         if(soundtoggle && nm>np){
             shipFailSound.play();
         } else if (soundtoggle && np>0) {
@@ -629,7 +636,16 @@ function Container(x,y, me){
 
     // change color
     this.filter = new PIXI.filters.ColorMatrixFilter();
-    this.filter.hue(rinr(0,360));
+    hr = rinr(0,360);
+    while(true){
+        // no pink!
+        if(hr>180 && hr<260){
+            hr = rinr(0,360);
+        }else{
+            break;
+        }
+    }
+    this.filter.hue(hr);
     this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
 
