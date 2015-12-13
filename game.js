@@ -40,10 +40,21 @@ var actionconfig   = {font: "65px 'rockfire'", fill: "#6DA1D7", align:"center"};
 var statsconfig    = {font: "28px 'rockfire'", fill: "#6DA1D7", align:"right"};
 var actionbgconfig = {font: "65px 'rockfire'", fill: "#000000", align:"center"};
 var statsbgconfig  = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
+var numberconfig   = {font: "100px 'rockfire'", fill: "#CC2222", align:"right"};
+var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
-var versionText    = new PIXI.Text("Version 0.04d", versionconfig);
-var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
-var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionbgconfig);
+
+var versionText    = new PIXI.Text("Version 0.05d", versionconfig);
+var actionText     = new PIXI.Text("Run this before rendering,\nyou lovable git", actionconfig);
+var actionbgText   = new PIXI.Text("Run this before rendering,\nyou lovable git", actionbgconfig);
+var numberText     = new PIXI.Text("??", numberconfig);
+var numberbgText   = new PIXI.Text("??", numberbgconfig);
+function setActionText(num){
+    actionText.text   = "Fill all container ships\nSo that they carry    containers";
+    actionbgText.text = "Fill all container ships\nSo that they carry    containers";
+    numberText.text   = " "+num;
+    numberbgText.text = " "+num;
+}
 var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
 var statsbgText    = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig);
 var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
@@ -56,22 +67,30 @@ statsText     .position = {x:WIDTH-10,    y:HEIGHT-5};
 statsbgText   .position = {x:WIDTH-10+2,  y:HEIGHT-5+2};
 animstatText  .position = {x:WIDTH-130,   y:HEIGHT-5};
 animstatbgText.position = {x:WIDTH-130+2, y:HEIGHT-5+2};
+animstatText  .position = {x:WIDTH-130,   y:HEIGHT-5};
+animstatbgText.position = {x:WIDTH-130+2, y:HEIGHT-5+2};
+numberText    .position = {x:4*WIDTH/5-8,   y:HEIGHT/4-25};
+numberbgText  .position = {x:4*WIDTH/5-8+2, y:HEIGHT/4-25+2};
 
-actionText    .anchor = {x:0.5, y:2.25};
-actionbgText  .anchor = {x:0.5, y:2.25};
+actionText    .anchor = {x:0.5, y:3};
+actionbgText  .anchor = {x:0.5, y:3};
 statsText     .anchor = {x:1,   y:1};
 statsbgText   .anchor = {x:1,   y:1};
 animstatText  .anchor = {x:1,   y:1};
 animstatbgText.anchor = {x:1,   y:1};
+numberText    .anchor = {x:1,   y:1};
+numberbgText  .anchor = {x:1,   y:1};
 
 // Adding info text
 cGui.addChild(actionbgText);
 cGui.addChild(statsbgText);
 cGui.addChild(animstatbgText);
-cGui.addChild(versionText);
+cGui.addChild(numberbgText);
 cGui.addChild(actionText);
 cGui.addChild(statsText);
 cGui.addChild(animstatText);
+cGui.addChild(numberText);
+cGui.addChild(versionText);
 
 // Keyboard IO
 // TODO on screen keys (interactive=true)
@@ -232,11 +251,18 @@ function State(){
     this.name = "Testie";
     this.mistakes = 0;
     this.points = 0;
+    this.goal = 9; // per ship
+    this.changeGoal = function(fg){
+        this.goal = fg;
+        setActionText(fg);
+    }
+    this.maxmistakes = 50; // TODO: return to menu + menu
     this.display = function(){
         // mistake, point, ship;
         animstatText.text=this.mistakes+"\n"+this.points+"\n"+this.level;
         animstatbgText.text=this.mistakes+"\n"+this.points+"\n"+this.level;
     }
+    this.changeGoal(this.goal);
     window.setInterval(function(){gameState.display();},100);
 }
 
@@ -245,7 +271,9 @@ function Ship(){
     ship = this;
 
     // target
-    this.end = 9;
+    this.end = gameState.goal;
+    this.minCStack = 0;
+    this.maxCStack = 5;
 
     // Filter to change hue
     this.filter = new PIXI.filters.ColorMatrixFilter();
@@ -259,9 +287,9 @@ function Ship(){
     cMiddle.addChild(this.sprite);
 
     // left, middle and right pile amount
-    this.leftlevel   = parseInt(rinr(2,5));
-    this.middlelevel = parseInt(rinr(2,5));
-    this.rightlevel  = parseInt(rinr(2,5));
+    this.leftlevel   = parseInt(rinr(this.minCStack,this.maxCStack));
+    this.middlelevel = parseInt(rinr(this.minCStack,this.maxCStack));
+    this.rightlevel  = parseInt(rinr(this.minCStack,this.maxCStack));
     while(true){
         if(this.leftlevel+this.middlelevel+this.rightlevel == this.end){
             this.rightlevel = parseInt(rinr(2,5));
@@ -277,14 +305,25 @@ function Ship(){
         testship = new Ship(); // This IS! very odd to hardcode
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
         gameState.mistakes += abs(this.end-sum);
-        gameState.points   += abs(this.start-sum);
+        np = abs(this.start-sum);
+        for (var i = 0; i < np; i++) {
+            gameState.points   += 1;
+            if(gameState.points%20==0){
+                // Change game goal every 10 Points
+                gameState.changeGoal(parseInt(rinr(3,12)));
+            }
+        }
+
     };
-    // FIXME: If this part generates properly, it'll work fine!
+    // FIX?ME: If this part generates properly, it'll work fine!
     this.start = this.leftlevel + this.middlelevel + this.rightlevel;
     this.defy = this.sprite.y;
     // periodically called to move ship
     this.move = function(){
-        dx = gameState.points/2.5+3;
+        // speed: http://wolfr.am/8WbTiZIg
+        dx = 3 + 2*Math.pow(gameState.points/6,0.4);
+        // old linear equation:
+        // dx = gameState.points/2.5+3;
         this.sprite.x -= dx;
         // Bobbing is dead!
         // this.bobx += rinr(-100,100)/100000.0;
