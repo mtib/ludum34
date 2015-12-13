@@ -621,7 +621,9 @@ function Container(x,y, me){
     this.mode = me.mode;
 
     // loading sprite, positioning it
-    this.sprite=new PIXI.Sprite.fromImage(container_file);
+    possprite = [container_file, container_file2, container_file3, container_file4]
+    this.sprite=new PIXI.Sprite.fromImage(possprite[parseInt(rinr(0,possprite.length)
+    )]);
     this.sprite.position.set(x,y);
     this.sprite.anchor.set(0.5,1);
 
