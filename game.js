@@ -310,7 +310,7 @@ function setup(){
     wavesprite.scale={x:1,y:1};
     var wavey = new PIXI.filters.DisplacementFilter(wavesprite);
     var a = {x:0,y:0};
-    var wavedisp = window.setInterval(function() {a.x += rinr(-30,30)/100.0; a.y +=rinr(-30,30)/100.0; wavesprite.position.x += a.x;wavesprite.position.y += a.y; a.x/=1.1; a.y/=1.1;},10);
+    var wavedisp = window.setInterval(function() {a.x += rinr(-30,30)/1000.0; a.y +=rinr(-30,30)/1000.0; wavesprite.position.x += a.x;wavesprite.position.y += a.y; a.x/=1.1; a.y/=1.1;},10);
     cBack.addChild(wavesprite);
     background.filters = [wavey]
     clouds = new Cloud();
@@ -350,7 +350,7 @@ function hoverCrane(xval){
     cl = 372
     vd = xval - vx0;
     vf = vd/cl;
-    cranearm.scale.x=vf;
+    cranearm.scale.x=(cranearm.scale.x+vf)/2.0;
 }
 
 function Cloud(){
