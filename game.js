@@ -335,17 +335,27 @@ function Ship(){
             gameState.mistakes += 1;
             return false;
         } else {
-            if(this.leftlevel>0){
+            if(this.mode == 0 && this.leftlevel>0){
                 this.leftlevel   -= 1;
-            } else if (this.middlelevel>0){
+
+                this.killCargo(this.mode);
+            } else if (this.mode == 1 && this.middlelevel>0){
                 this.middlelevel -= 1;
-            } else if (this.rightlevel>0){
+
+                this.killCargo(this.mode);
+            } else if (this.mode == 2 && this.rightlevel>0){
                 this.rightlevel  -= 1;
+
+                this.killCargo(this.mode);
             } else {
                 return false;
             }
             return true;
         }
+    }
+    this.killCargo=function(lvl){
+        this.cargo[lvl][this.cargo[lvl].length-1].die();
+        delete this.cargo[lvl][this.cargo[lvl].length-1];
     }
     this.loadc=function(){
         if (this.mode == null){
