@@ -23,6 +23,9 @@
 
     $prep->bind_param('iii', $pts, $mistakes, $tm);
     $prep->execute();
+    $prep->close();
 
     $con->close();
+
+    echo "true";
 ?>
