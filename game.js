@@ -419,6 +419,14 @@ function Ship(){
     // Filter to change hue
     this.filter = new PIXI.filters.ColorMatrixFilter();
     hr = rinr(0,360);
+    while(true){
+        // no pink!
+        if(hr>180 && hr<290){
+            hr = rinr(0,360);
+        }else{
+            break;
+        }
+    }
     this.filter.hue(hr);
 
     // load sprite
@@ -639,7 +647,7 @@ function Container(x,y, me){
     hr = rinr(0,360);
     while(true){
         // no pink!
-        if(hr>180 && hr<260){
+        if(hr>180 && hr<290){
             hr = rinr(0,360);
         }else{
             break;
