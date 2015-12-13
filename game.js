@@ -415,15 +415,10 @@ function State(){
         try {
             if(!this.usernameask){
                 this.usernameask = true;
-                this.username = promt("Your Username:");
-                if(!this.username){
-                    this.username = "Bobby";
-                }
+                this.username = prompt("Your Username:");
             }
         } catch (e) {
-
-        } finally {
-
+            console.log("error while prompting for username");
         }
         var xhttp;
         xhttp = new XMLHttpRequest();
