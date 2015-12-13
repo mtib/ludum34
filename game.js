@@ -58,7 +58,7 @@ var numberconfig   = {font: "100px 'rockfire'", fill: "#CC2222", align:"right"};
 var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
 
-var versionText    = new PIXI.Text("Version 0.06d", versionconfig);
+var versionText    = new PIXI.Text("Version 0.07d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionconfig);
 var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionbgconfig);
 var numberText     = new PIXI.Text("??", numberconfig);
@@ -208,10 +208,14 @@ function showIngame(){
     unloadbtn.click = function(data){ingameUnload();};
     musicbtn.click = function(data){
         musictoggle=!musictoggle;
-        if(musictoggle){
+        if(musictoggle && gameState.playing){
             gameSound.play();
-        }else{
+        } else if (gameState.playing){
             gameSound.pause();
+        } else if (musictoggle){
+            menuSound.play();
+        } else {
+            menuSound.stop();
         }
     };
     soundbtn.click = function(data){
@@ -225,7 +229,9 @@ function showIngame(){
             gameState.mistakes = 0;
             gameState.changeGoal(9);
             testship = new Ship();
-            gameSound.play();
+            if (musictoggle){
+                gameSound.play();
+            }
     };
 }
 
