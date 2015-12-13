@@ -20,9 +20,8 @@ Play at [ld34.rateld.de](http://ld34.rateld.de)!
 
 ### Goals
 - [x] PreLD project structure (Markus)
-- [ ] Intro Jingle
-- [ ] Credits Song
-- [ ] Animations ? (Aileen + Kilian)
+- [x] Intro Jingle
+- [x] Animations ? (Aileen + Kilian)
 - [ ] Rating together
 
 ## Tools
