@@ -41,7 +41,7 @@ var statsconfig    = {font: "28px 'rockfire'", fill: "#6DA1D7", align:"right"};
 var actionbgconfig = {font: "65px 'rockfire'", fill: "#000000", align:"center"};
 var statsbgconfig  = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
 
-var versionText    = new PIXI.Text("Version 0.02d", versionconfig);
+var versionText    = new PIXI.Text("Version 0.04d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
 var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionbgconfig);
 var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
