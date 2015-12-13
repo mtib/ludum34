@@ -134,8 +134,7 @@ function showIngame(){
     unloadbtn.click = function(data){ingameUnload();};
 }
 
-// TODO: Do Howler Stuff here
-// TODO: "rate" changes speed
+// Do Howler Stuff here
 var gameSound = new Howl({
     urls: ["assets/music/BuutonBoatBashingTheme.ogg"],
     loop: true,
@@ -143,11 +142,13 @@ var gameSound = new Howl({
     rate: 2,
     onend: function() { /* ... */}
 });
+// FIXME: Add actual sounds
 
 // Called just before rendering the first frame
 function setup(){
     counter = 0.0;
     gameSound.play();
+    // buttons
     loadbtn    = new PIXI.Sprite.fromImage(loadbtn_file);
     unloadbtn  = new PIXI.Sprite.fromImage(unloadbtn_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
@@ -242,36 +243,42 @@ function State(){
 // Class for Ships
 function Ship(){
     ship = this;
+
+    // target
     this.end = 9;
+
+    // Filter to change hue
     this.filter = new PIXI.filters.ColorMatrixFilter();
     this.filter.hue(rinr(0,360));
 
+    // load sprite
     this.sprite = new PIXI.Sprite.fromImage(shitsprite_file);
     this.sprite.scale={x:1.6,y:1.6};
     this.sprite.position={x:WIDTH+5,y:HEIGHT-350};
     this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
 
+    // left, middle and right pile amount
     this.leftlevel   = parseInt(rinr(2,5));
     this.middlelevel = parseInt(rinr(2,5));
     this.rightlevel  = parseInt(rinr(2,5));
+    // unload from renderer
     this.die = function(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
-        testship = new Ship(); // This seems very odd to hardcode
+        testship = new Ship(); // This IS! very odd to hardcode
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
         gameState.mistakes += abs(this.end-sum);
         gameState.points   += abs(this.start-sum);
     };
     // FIXME: If this part generates properly, it'll work fine!
     this.start = this.leftlevel + this.middlelevel + this.rightlevel;
-    this.bobx = 0;
-    this.boby = 0;
     this.defy = this.sprite.y;
+    // periodically called to move ship
     this.move = function(){
         dx = gameState.points/4+3;
         this.sprite.x -= dx;
-        // TODO: Bobbing...
+        // Bobbing is dead!
         // this.bobx += rinr(-100,100)/100000.0;
         // this.boby += rinr(-100,100)/100000.0;
         // this.sprite.anchor = {x:this.bobx, y:this.boby};
@@ -299,6 +306,7 @@ function Ship(){
                     }
                 }
             }
+            // delete ship (out of frame) & add now one;
             this.die();
         }
 
@@ -363,6 +371,7 @@ function Ship(){
             this.rightlevel += 1;
         }
     }
+    // multidimensional array of cargo (left,middle,right)
     this.cargo = [[],[],[]];
 
     this.movement = window.setInterval(function(){ship.move();}, 10);
@@ -382,19 +391,30 @@ function Ship(){
 }
 
 function Container(x,y, me){
+    // instatiation position
     this.ix = x;
     this.iy = y;
+
+    // pile to be on
     this.mode = me.mode;
+
+    // loading sprite, positioning it
     this.sprite=new PIXI.Sprite.fromImage(container_file);
     this.sprite.position.set(x,y);
     this.sprite.anchor.set(0.5,1);
+
+    // change color
     this.filter = new PIXI.filters.ColorMatrixFilter();
     this.filter.hue(rinr(0,360));
     this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
+
+    // set position
     this.set = function(x,y){
         this.sprite.position.set(x,y);
     }
+
+    // unload, and don't render
     this.die = function(){
         cMiddle.removeChild(this.sprite);
     }
@@ -430,9 +450,12 @@ function ingameUnload(){
 // should be used for logic
 speedswitch = {1:10, 2:20, 3:50, 4:70, 5:100, 6:200};
 speedlevel = {0:2,1:2.25,2:2.5,3:2.75,4:3,5:3.5,6:4};
+
+// starting speed level
 currlevel = 0;
 function renderLoop(){
     try {
+        // speed up
         if(gameState.points >= speedswitch[currlevel+1]){
             currlevel = currlevel+1;
             gameSound._rate=speedlevel[currlevel];
@@ -442,8 +465,8 @@ function renderLoop(){
             gameSound.play();
         }
     } catch (e) {
-
+        // ends up here, if there isn't any faster level
     } finally {
-
+        // nothing to do here
     }
 }
