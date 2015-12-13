@@ -226,8 +226,10 @@ function showIngame(){
             cGui.removeChild(startbtn);
             gameState.playing = true;
             gameState.points = 0;
+            gameState.level = 1;
             gameState.mistakes = 0;
             gameState.changeGoal(9);
+            currlevel = 0;
             testship = new Ship();
             if (musictoggle){
                 gameSound.play();
