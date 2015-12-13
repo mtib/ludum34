@@ -11,8 +11,7 @@ Using Libraries: Pixi.js and Howler.js
 date: 13.12.2015 for LD34
 theme: Two Buttons Control, Growing
 
-TODO: Main Menu = Start Button
-TODO: End Game
+// TODO: maybe "you lost text";
 */
 
 // Canvas Size
@@ -133,6 +132,9 @@ var crane_base_file = "assets/image/sprites/cran_layer.png";
 var crane_arm_file  = "assets/image/sprites/cranarm_layer.png";
 var port_file       = "assets/image/sprites/port_layer.png";
 var container_file  = "assets/image/sprites/container_layer.png";
+var container_file2  = "assets/image/sprites/container_layer2.png";
+var container_file3  = "assets/image/sprites/container_layer3.png";
+var container_file4  = "assets/image/sprites/container_layer4.png";
 var displace_file   = "assets/image/sprites/displace.png";
 var mutem_file      = "assets/image/buttons/mutem_btn.png";
 var mutes_file      = "assets/image/buttons/mutes_btn.png";
@@ -148,6 +150,10 @@ PIXI.loader
     .add(shitsprite_file)
     .add(crane_base_file)
     .add(crane_arm_file)
+    .add(container_file)
+    .add(container_file2)
+    .add(container_file3)
+    .add(container_file4)
     .add(port_file)
     .add(displace_file)
     .load(setup)
@@ -160,6 +166,7 @@ var musicbtn   = null;
 var startbtn   = null;
 var background = null;
 var testship   = null;
+var ylose      = null;
 
 function showIngame(){
     loadbtn.position = {x: 20,y: HEIGHT-100};
@@ -176,6 +183,7 @@ function showIngame(){
     soundbtn.width = 112; // d=48
     var info = new PIXI.Text("A - to add a container to the ship\nD - to remove a container\n\n~ try to fill or empty the ships to fit the task\n~ the number of containers changes periodically\n~ if you make 30 mistakes the game will end", {font: "60px 'rockfire'", fill: "#000", align: "left"});
     var credits = new PIXI.Text("a game by:\nMarkus 'Tibyte' Becker\nLucas 'LFalch'\nKilian 'Malloth Rha'\nAileen Bo 'honeycatani'", {font: "38px 'rockfire'", fill: "#000", align: "left"});
+    ylose = new PIXI.Text("", {font: "150px 'rockfire'", fill: "#A00", align: "center"});
     startbtn.position = {x: WIDTH/2, y: HEIGHT/2};
     startbtn.anchor = {x:0.5,y:0.5};
     startbtn.height = 150; // d=28
@@ -184,8 +192,11 @@ function showIngame(){
     info.anchor = {x:0.4,y:0};
     credits.position.x = -1 * startbtn.position.x - 2* startbtn.width - 60;
     credits.position.y = -1 * startbtn.position.y - 2* startbtn.height + 5;
+    ylose.position.y=-300;
+    ylose.anchor = {x:0.5,y:1};
     startbtn.addChild(info);
     startbtn.addChild(credits);
+    startbtn.addChild(ylose);
     cGui.addChild(loadbtn);
     cGui.addChild(unloadbtn);
     cGui.addChild(musicbtn);
@@ -395,6 +406,7 @@ function State(){
         if(musictoggle){
             menuSound.play();
         }
+        ylose.text = "YOU LOST";
     }
 }
 
@@ -524,6 +536,7 @@ function Ship(){
             gameState.mistakes += 1;
             if(soundtoggle){
                 failureSound.play();
+                gameState.mistakes += 1;
             }
             return false;
         } else {
@@ -542,6 +555,7 @@ function Ship(){
             } else {
                 if(soundtoggle){
                     failureSound.play();
+                    gameState.mistakes += 1;
                 }
                 return false;
             }
@@ -559,6 +573,9 @@ function Ship(){
         ncont = null;
         if (this.mode == null){
             gameState.mistakes += 1;
+            if (soundtoggle){
+                failureSound.play();
+            }
             return false;
         } else if (this.mode == 0 && this.leftlevel < 5) {
             ncont = this.cargo[0][this.cargo[0].length]=new Container(this.sprite.x+ 900, this.sprite.y+this.shipv0  +this.leftlevel * (-1*this.cargoh), 1);
@@ -691,6 +708,9 @@ function renderLoop(){
             gameSound.pause();
             gameSound.fade(0,0.4,10);
             gameSound.play();
+            if(!gameState.playing){
+                gameSound.stop();
+            }
         }
     } catch (e) {
         // ends up here, if there isn't any faster level
