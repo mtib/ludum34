@@ -355,7 +355,7 @@ function Ship(){
     }
     this.killCargo=function(lvl){
         this.cargo[lvl][this.cargo[lvl].length-1].die();
-        delete this.cargo[lvl][this.cargo[lvl].length-1];
+        this.cargo[lvl][this.cargo[lvl].length-1].pop();
     }
     this.loadc=function(){
         if (this.mode == null){
