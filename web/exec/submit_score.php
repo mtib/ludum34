@@ -23,4 +23,6 @@
 
     $prep->bind_param('iii', $pts, $mistakes, $tm);
     $prep->execute();
+
+    $con->close();
 ?>
