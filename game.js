@@ -11,8 +11,6 @@ Using Libraries: Pixi.js and Howler.js
 date: 13.12.2015 for LD34
 theme: Two Buttons Control, Growing
 
-TODO: Sounds
-TODO: Music, Sound Buttons
 TODO: Main Menu = Start Button
 TODO: End Game
 */
@@ -136,6 +134,8 @@ var crane_arm_file  = "assets/image/sprites/cranarm_layer.png";
 var port_file       = "assets/image/sprites/port_layer.png";
 var container_file  = "assets/image/sprites/container_layer.png";
 var displace_file   = "assets/image/sprites/displace.png";
+var mutem_file      = "assets/image/buttons/mutem_btn.png";
+var mutes_file      = "assets/image/buttons/mutes_btn.png";
 //var wave_file = "assets/image/sprites/displace.png";
 
 // Load Images
@@ -154,6 +154,8 @@ PIXI.loader
 // Global sprites
 var loadbtn    = null;
 var unloadbtn  = null;
+var soundbtn   = null;
+var musicbtn   = null;
 var background = null;
 
 function showIngame(){
@@ -163,12 +165,33 @@ function showIngame(){
     unloadbtn.position = {x: loadbtn.width + 35, y: HEIGHT-100};
     unloadbtn.height = 93;
     unloadbtn.width = 160;
+    musicbtn.position = {x: 2*loadbtn.width + 35+14, y: HEIGHT-100+24}
+    musicbtn.height = 65; // d=28
+    musicbtn.width = 112; // d=48
+    soundbtn.position = {x: 2*loadbtn.width + 2*65 +25+14, y: HEIGHT-100+24}
+    soundbtn.height = 65; // d=28
+    soundbtn.width = 112; // d=48
     cGui.addChild(loadbtn);
     cGui.addChild(unloadbtn);
-    loadbtn.interactive = true;
+    cGui.addChild(musicbtn);
+    cGui.addChild(soundbtn);
+    loadbtn.interactive   = true;
     unloadbtn.interactive = true;
+    musicbtn.interactive  = true;
+    soundbtn.interactive  = true;
     loadbtn.click = function(data){ingameLoad();};
     unloadbtn.click = function(data){ingameUnload();};
+    musicbtn.click = function(data){
+        musictoggle=!musictoggle;
+        if(musictoggle){
+            gameSound.play();
+        }else{
+            gameSound.pause();
+        }
+    };
+    soundbtn.click = function(data){
+        soundtoggle=!soundtoggle;
+    }
 }
 
 // Do Howler Stuff here
@@ -179,7 +202,49 @@ var gameSound = new Howl({
     rate: 2,
     onend: function() { /* ... */}
 });
-// FIXME: Add actual sounds
+var successSound = new Howl({
+    urls: ["assets/sounds/success.wav"],
+    loop: false,
+    volume: 0.2,
+    rate: 1,
+    onend: function() { /* ... */}
+});
+var failureSound = new Howl({
+    urls: ["assets/sounds/mistake.wav"],
+    loop: false,
+    volume: 0.15,
+    rate: 1,
+    onend: function() { /* ... */}
+});
+var bleepSound = new Howl({
+    urls: ["assets/sounds/bleep.wav"],
+    loop: false,
+    volume: 0.3,
+    rate: 1,
+    onend: function() { /* ... */}
+});
+var shipSuccessSound = new Howl({
+    urls: ["assets/sounds/shipsuccess.wav"],
+    loop: false,
+    volume: 0.3,
+    rate: 1,
+    onend: function() { /* ... */}
+});
+var shipFailSound = new Howl({
+    urls: ["assets/sounds/shipfail.wav"],
+    loop: false,
+    volume: 0.3,
+    rate: 1,
+    onend: function() { /* ... */}
+});
+var smashSound = new Howl({
+    urls: ["assets/sounds/smash.wav"],
+    loop: false,
+    volume: 0.07,
+    rate: 1.5,
+    onend: function() { /* ... */}
+});
+
 
 // Called just before rendering the first frame
 function setup(){
@@ -188,6 +253,8 @@ function setup(){
     // buttons
     loadbtn    = new PIXI.Sprite.fromImage(loadbtn_file);
     unloadbtn  = new PIXI.Sprite.fromImage(unloadbtn_file);
+    musicbtn   = new PIXI.Sprite.fromImage(mutem_file);
+    soundbtn   = new PIXI.Sprite.fromImage(mutes_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
     // xblurb = new PIXI.filters.BlurXFilter();
     // background.filters = [xblurb];
@@ -273,6 +340,9 @@ function State(){
     this.changeGoal = function(fg){
         this.goal = fg;
         setActionText(fg);
+        if(soundtoggle){
+            bleepSound.play();
+        }
     }
     this.maxmistakes = 50; // TODO: return to menu + menu
     this.display = function(){
@@ -322,8 +392,14 @@ function Ship(){
         cMiddle.removeChild(this.sprite);
         testship = new Ship(); // This IS! very odd to hardcode
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
-        gameState.mistakes += abs(this.end-sum);
+        nm = abs(this.end-sum);
+        gameState.mistakes += nm
         np = abs(this.start-sum);
+        if(soundtoggle && nm>np){
+            shipFailSound.play();
+        } else if (soundtoggle && np>0) {
+            shipSuccessSound.play();
+        }
         for (var i = 0; i < np; i++) {
             gameState.points   += 1;
             if(gameState.points%20==0){
@@ -331,6 +407,7 @@ function Ship(){
                 gameState.changeGoal(parseInt(rinr(3,13)));
             }
         }
+
 
     };
     // FIX?ME: If this part generates properly, it'll work fine!
@@ -398,6 +475,9 @@ function Ship(){
     this.lose=function(){
         if(this.sumv() < 1){
             gameState.mistakes += 1;
+            if(soundtoggle){
+                failureSound.play();
+            }
             return false;
         } else {
             if(this.mode == 0 && this.leftlevel>0){
@@ -413,7 +493,13 @@ function Ship(){
 
                 this.killCargo(this.mode);
             } else {
+                if(soundtoggle){
+                    failureSound.play();
+                }
                 return false;
+            }
+            if(soundtoggle){
+                successSound.play();
             }
             return true;
         }
@@ -488,6 +574,9 @@ function Container(x,y, me){
             window.setTimeout(function(){that.fall(that)},10);
         } else {
             that.sprite.anchor.y=1;
+            if(soundtoggle){
+                smashSound.play();
+            }
         }
     }
 
@@ -540,13 +629,15 @@ function ingameUnload(){
 // should be used for logic
 speedswitch = {1:10, 2:20, 3:50, 4:70, 5:100, 6:200};
 speedlevel = {0:2,1:2.25,2:2.5,3:2.75,4:3,5:3.5,6:4};
+var musictoggle = true;
+var soundtoggle = true;
 
 // starting speed level
 currlevel = 0;
 function renderLoop(){
     try {
         // speed up
-        if(gameState.points >= speedswitch[currlevel+1]){
+        if(musictoggle && gameState.points >= speedswitch[currlevel+1]){
             currlevel = currlevel+1;
             gameSound._rate=speedlevel[currlevel];
             gameSound.fade(0.4,0,10);
