@@ -410,6 +410,16 @@ function State(){
             menuSound.play();
         }
         ylose.text = "YOU LOST";
+        var xhttp;
+        if(window.XMLHttpRequest) {
+            xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "web/exec/submit_score.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+100);
+        } else {
+            // doesn't support "new" ajax
+        }
+
     }
 }
 
