@@ -313,10 +313,10 @@ function Ship(){
         if (this.sprite.x < -50 && this.sprite.x > -500){
             this.activespot = this.sprite.x + 900;
             this.mode = 0;
-        } else if (this.sprite.x < -500 && this.sprite.x > -800){
+        } else if (this.sprite.x < -500 && this.sprite.x > -900){
             this.activespot = this.sprite.x + 1300;
             this.mode = 1;
-        } else if (this.sprite.x < -800 && this.sprite.x > -1500){
+        } else if (this.sprite.x < -900 && this.sprite.x > -1300){
             this.activespot = this.sprite.x + 1700;
             this.mode = 2;
         } else{
