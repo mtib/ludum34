@@ -60,18 +60,18 @@ var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
 var versionText    = new PIXI.Text("Version 0.08d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionconfig);
-var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionbgconfig);
+var actionbgText   = new PIXI.Text(actionText.text, actionbgconfig);
 var numberText     = new PIXI.Text("??", numberconfig);
-var numberbgText   = new PIXI.Text("??", numberbgconfig);
+var numberbgText   = new PIXI.Text(numberText.text, numberbgconfig);
 // Fill in the gameState.goal value into the text
 function setActionText(num){
     numberText.text   = " "+num;
     numberbgText.text = " "+num;
 }
 var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
-var statsbgText    = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig);
+var statsbgText    = new PIXI.Text(statsconfig.text, statsbgconfig);
 var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
-var animstatbgText = new PIXI.Text("n\nm\nN", statsbgconfig);
+var animstatbgText = new PIXI.Text(animstatText.text, statsbgconfig);
 
 versionText   .position = {x:10,          y:10};
 actionText    .position = {x:2*WIDTH/3,   y:HEIGHT/2};
