@@ -262,6 +262,14 @@ function Ship(){
     this.leftlevel   = parseInt(rinr(2,5));
     this.middlelevel = parseInt(rinr(2,5));
     this.rightlevel  = parseInt(rinr(2,5));
+    while(true){
+        if(this.leftlevel+this.middlelevel+this.rightlevel == this.end){
+            this.rightlevel = parseInt(rinr(2,5));
+            continue;
+        } else {
+            break;
+        }
+    }
     // unload from renderer
     this.die = function(){
         window.clearInterval(this.movement);
