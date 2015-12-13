@@ -284,7 +284,7 @@ function Ship(){
     this.defy = this.sprite.y;
     // periodically called to move ship
     this.move = function(){
-        dx = gameState.points/4+3;
+        dx = gameState.points/2.5+3;
         this.sprite.x -= dx;
         // Bobbing is dead!
         // this.bobx += rinr(-100,100)/100000.0;
