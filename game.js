@@ -61,7 +61,7 @@ var numberconfig   = {font: "100px 'rockfire'", fill: "#CC2222", align:"right"};
 var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
 
-var versionText    = new PIXI.Text("Version 0.05d", versionconfig);
+var versionText    = new PIXI.Text("Version 0.06d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionconfig);
 var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionbgconfig);
 var numberText     = new PIXI.Text("??", numberconfig);
@@ -136,6 +136,7 @@ var container_file  = "assets/image/sprites/container_layer.png";
 var displace_file   = "assets/image/sprites/displace.png";
 var mutem_file      = "assets/image/buttons/mutem_btn.png";
 var mutes_file      = "assets/image/buttons/mutes_btn.png";
+var start_file      = "assets/image/buttons/start_btn.png";
 //var wave_file = "assets/image/sprites/displace.png";
 
 // Load Images
@@ -156,7 +157,9 @@ var loadbtn    = null;
 var unloadbtn  = null;
 var soundbtn   = null;
 var musicbtn   = null;
+var startbtn   = null;
 var background = null;
+var testship   = null;
 
 function showIngame(){
     loadbtn.position = {x: 20,y: HEIGHT-100};
@@ -171,14 +174,28 @@ function showIngame(){
     soundbtn.position = {x: 2*loadbtn.width + 2*65 +25+14, y: HEIGHT-100+24}
     soundbtn.height = 65; // d=28
     soundbtn.width = 112; // d=48
+    var info = new PIXI.Text("A - to add a container to the ship\nD - to remove a container\n\n~ try to fill or empty the ships to fit the task\n~ the number of containers changes periodically\n~ if you make 30 mistakes the game will end", {font: "60px 'rockfire'", fill: "#000", align: "left"});
+    var credits = new PIXI.Text("a game by:\nMarkus 'Tibyte' Becker\nLucas 'LFalch'\nKilian 'Malloth Rha'\nAileen Bo 'honeycatani'", {font: "38px 'rockfire'", fill: "#000", align: "left"});
+    startbtn.position = {x: WIDTH/2, y: HEIGHT/2};
+    startbtn.anchor = {x:0.5,y:0.5};
+    startbtn.height = 150; // d=28
+    startbtn.width = 220; // d=48
+    info.position = {x:0,y:startbtn.height+10};
+    info.anchor = {x:0.4,y:0};
+    credits.position.x = -1 * startbtn.position.x - 2* startbtn.width - 60;
+    credits.position.y = -1 * startbtn.position.y - 2* startbtn.height + 5;
+    startbtn.addChild(info);
+    startbtn.addChild(credits);
     cGui.addChild(loadbtn);
     cGui.addChild(unloadbtn);
     cGui.addChild(musicbtn);
     cGui.addChild(soundbtn);
+    cGui.addChild(startbtn);
     loadbtn.interactive   = true;
     unloadbtn.interactive = true;
     musicbtn.interactive  = true;
     soundbtn.interactive  = true;
+    startbtn.interactive  = true;
     loadbtn.click = function(data){ingameLoad();};
     unloadbtn.click = function(data){ingameUnload();};
     musicbtn.click = function(data){
@@ -191,12 +208,29 @@ function showIngame(){
     };
     soundbtn.click = function(data){
         soundtoggle=!soundtoggle;
-    }
+    };
+    startbtn.click = function(data){
+            menuSound.stop();
+            cGui.removeChild(startbtn);
+            gameState.playing = true;
+            gameState.points = 0;
+            gameState.mistakes = 0;
+            gameState.changeGoal(9);
+            testship = new Ship();
+            gameSound.play();
+    };
 }
 
 // Do Howler Stuff here
 var gameSound = new Howl({
     urls: ["assets/music/BuutonBoatBashingTheme.ogg"],
+    loop: true,
+    volume: 0.4,
+    rate: 2,
+    onend: function() { /* ... */}
+});
+var menuSound = new Howl({
+    urls: ["assets/music/MenuTheme.ogg"],
     loop: true,
     volume: 0.4,
     rate: 2,
@@ -245,17 +279,18 @@ var smashSound = new Howl({
     onend: function() { /* ... */}
 });
 
+menuSound.play();
 
 // Called just before rendering the first frame
 function setup(){
     counter = 0.0;
-    gameSound.play();
     // buttons
     loadbtn    = new PIXI.Sprite.fromImage(loadbtn_file);
     unloadbtn  = new PIXI.Sprite.fromImage(unloadbtn_file);
     musicbtn   = new PIXI.Sprite.fromImage(mutem_file);
     soundbtn   = new PIXI.Sprite.fromImage(mutes_file);
     background = new PIXI.Sprite.fromImage(seabg_file);
+    startbtn   = new PIXI.Sprite.fromImage(start_file);
     // xblurb = new PIXI.filters.BlurXFilter();
     // background.filters = [xblurb];
     background.height = HEIGHT;
@@ -288,7 +323,6 @@ function setup(){
     cFront.addChild(cranebase);
 
     showIngame();
-    testship = new Ship();
 
     // Filters
     // thisfil = new PIXI.filters.ColorMatrixFilter();
@@ -337,6 +371,7 @@ function State(){
     this.mistakes = 0;
     this.points = 0;
     this.goal = 9; // per ship
+    this.playing = false;
     this.changeGoal = function(fg){
         this.goal = fg;
         setActionText(fg);
@@ -344,7 +379,7 @@ function State(){
             bleepSound.play();
         }
     }
-    this.maxmistakes = 50; // TODO: return to menu + menu
+    this.maxmistakes = 30; // TODO: return to menu + menu; 30 seems fine
     this.display = function(){
         // mistake, point, ship;
         animstatText.text=this.mistakes+"\n"+this.points+"\n"+this.level;
@@ -352,6 +387,15 @@ function State(){
     }
     this.changeGoal(this.goal);
     window.setInterval(function(){gameState.display();},100);
+    this.stopgame = function(){
+        this.playing = false;
+        cGui.addChild(startbtn);
+        currlevel = 0;
+        gameSound.stop();
+        if(musictoggle){
+            menuSound.play();
+        }
+    }
 }
 
 // Class for Ships
@@ -390,7 +434,6 @@ function Ship(){
     this.die = function(){
         window.clearInterval(this.movement);
         cMiddle.removeChild(this.sprite);
-        testship = new Ship(); // This IS! very odd to hardcode
         var sum = this.leftlevel + this.middlelevel + this.rightlevel;
         nm = abs(this.end-sum);
         gameState.mistakes += nm
@@ -407,8 +450,12 @@ function Ship(){
                 gameState.changeGoal(parseInt(rinr(3,13)));
             }
         }
-
-
+        if (gameState.mistakes>gameState.maxmistakes){
+            gameState.stopgame();
+        }
+        if (gameState.playing){
+            testship = new Ship(); // This IS! very odd to hardcode
+        }
     };
     // FIX?ME: If this part generates properly, it'll work fine!
     this.start = this.leftlevel + this.middlelevel + this.rightlevel;
