@@ -43,10 +43,10 @@ var statsbgconfig  = {font: "28px 'rockfire'", fill: "#000000", align:"right"};
 
 var versionText    = new PIXI.Text("Version 0.02d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionconfig);
-var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
-var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
 var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry 9 containers", actionbgconfig);
+var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
 var statsbgText    = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsbgconfig);
+var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
 var animstatbgText = new PIXI.Text("n\nm\nN", statsbgconfig);
 
 versionText   .position = {x:10,          y:10};
@@ -280,19 +280,23 @@ function Ship(){
         this.sprite.y=this.defy+sink;
         div  = this.sprite.y-ly;
 
-
-        for (var elem in this.cargo) {
-            if (this.cargo.hasOwnProperty(elem)) {
-                this.cargo[elem].sprite.x -= dx;
-                this.cargo[elem].sprite.y += div;
+        for (var lvl in this.cargo) {
+            for (var elem in this.cargo[lvl]) {
+                if (this.cargo[lvl].hasOwnProperty(elem)) {
+                    this.cargo[lvl][elem].sprite.x -= dx;
+                    this.cargo[lvl][elem].sprite.y += div;
+                }
             }
         }
 
         if (this.sprite.x+this.sprite.width<-4) {
             gameState.level += 1;
-            for (var elem in this.cargo) {
-                if (this.cargo.hasOwnProperty(elem)) {
-                    this.cargo[elem].die();
+            for (var lvl in this.cargo) {
+                for (var elem in this.cargo[lvl]){
+                    if (this.cargo[lvl].hasOwnProperty(elem)) {
+                        this.cargo[lvl][elem].die();
+                        delete this.cargo[lvl][elem];
+                    }
                 }
             }
             this.die();
@@ -339,30 +343,31 @@ function Ship(){
         if (this.mode == null){
             gameState.mistakes += 1;
         } else if (this.mode == 0 && this.leftlevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+900,this.sprite.y+this.shipv0+this.leftlevel*(-1*this.cargoh),1);
+            this.cargo[0][this.cargo[0].length]=new Container(this.sprite.x+ 900, this.sprite.y+this.shipv0  +this.leftlevel * (-1*this.cargoh), 1);
             this.leftlevel += 1;
         } else if (this.mode == 1 && this.middlelevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x + 1300, this.sprite.y + this.shipv0 - 3 + this.middlelevel * (-1*this.cargoh), 1);
+            this.cargo[1][this.cargo[1].length]=new Container(this.sprite.x+1300, this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh), 1);
             this.middlelevel += 1;
         } else if (this.mode == 2 && this.rightlevel < 5) {
-            this.cargo[this.cargo.length]=new Container(this.sprite.x+1700,this.sprite.y+this.shipv0-6+this.rightlevel*(-1*this.cargoh),1);
+            this.cargo[2][this.cargo[2].length]=new Container(this.sprite.x+1700, this.sprite.y+this.shipv0-6+this.rightlevel* (-1*this.cargoh), 1);
             this.rightlevel += 1;
         }
     }
-    this.cargo = [];
+    this.cargo = [[],[],[]];
 
     this.movement = window.setInterval(function(){ship.move();}, 10);
     // [800,1200,1600]
     this.cargoh = 91;
     this.shipv0 = 70;
+
     for (var i = 0; i < this.leftlevel; i++) {
-        this.cargo[i] =                                 new Container(this.sprite.x +  900, this.sprite.y + this.shipv0     + i * (-1*this.cargoh), 0);
+        this.cargo[0][i] = new Container(this.sprite.x +  900, this.sprite.y + this.shipv0     + i * (-1*this.cargoh), 0);
     }
     for (var i = 0; i < this.middlelevel; i++) {
-        this.cargo[i+this.leftlevel] =                  new Container(this.sprite.x + 1300, this.sprite.y + this.shipv0 - 3 + i * (-1*this.cargoh), 1);
+        this.cargo[1][i] = new Container(this.sprite.x + 1300, this.sprite.y + this.shipv0 - 3 + i * (-1*this.cargoh), 1);
     }
     for (var i = 0; i < this.rightlevel; i++) {
-        this.cargo[i+this.leftlevel+this.middlelevel] = new Container(this.sprite.x + 1700, this.sprite.y + this.shipv0 - 6 + i * (-1*this.cargoh), 2);
+        this.cargo[2][i] = new Container(this.sprite.x + 1700, this.sprite.y + this.shipv0 - 6 + i * (-1*this.cargoh), 2);
     }
 }
 
