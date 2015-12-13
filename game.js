@@ -1,3 +1,22 @@
+/*
+This is a game by:
+Markus "TiByte" Becker   - Lead Developer
+Lukas "LFalch"           - Programmer
+Aileen                   - Graphic Designer
+Kilian "Malloth Rha"     - Musician
+Micha                    - Junior Programmer
+Enrico                   - Q&A Tester
+
+Using Libraries: Pixi.js and Howler.js
+date: 13.12.2015 for LD34
+theme: Two Buttons Control, Growing
+
+TODO: Sounds
+TODO: Music, Sound Buttons
+TODO: Main Menu = Start Button
+TODO: End Game
+*/
+
 // Canvas Size
 var WIDTH = 1280;
 var HEIGHT = 720;
@@ -45,13 +64,12 @@ var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
 
 var versionText    = new PIXI.Text("Version 0.05d", versionconfig);
-var actionText     = new PIXI.Text("Run this before rendering,\nyou lovable git", actionconfig);
-var actionbgText   = new PIXI.Text("Run this before rendering,\nyou lovable git", actionbgconfig);
+var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionconfig);
+var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionbgconfig);
 var numberText     = new PIXI.Text("??", numberconfig);
 var numberbgText   = new PIXI.Text("??", numberbgconfig);
+// Fill in the gameState.goal value into the text
 function setActionText(num){
-    actionText.text   = "Fill all container ships\nSo that they carry    containers";
-    actionbgText.text = "Fill all container ships\nSo that they carry    containers";
     numberText.text   = " "+num;
     numberbgText.text = " "+num;
 }
@@ -310,7 +328,7 @@ function Ship(){
             gameState.points   += 1;
             if(gameState.points%20==0){
                 // Change game goal every 10 Points
-                gameState.changeGoal(parseInt(rinr(3,12)));
+                gameState.changeGoal(parseInt(rinr(3,13)));
             }
         }
 
@@ -320,7 +338,7 @@ function Ship(){
     this.defy = this.sprite.y;
     // periodically called to move ship
     this.move = function(){
-        // speed: http://wolfr.am/8WbTiZIg
+        // speed: http://wolfr.am/8Wej7DTi
         dx = 3 + 2*Math.pow(gameState.points/6,0.4);
         // old linear equation:
         // dx = gameState.points/2.5+3;
@@ -401,21 +419,27 @@ function Ship(){
         }
     }
     this.killCargo=function(lvl){
-        this.cargo[lvl].pop().die();
+        that = this.cargo[lvl].pop();
+        that.falldie(that); // "this" didn't work inside the timeout
     }
     this.loadc=function(){
+        ncont = null;
         if (this.mode == null){
             gameState.mistakes += 1;
+            return false;
         } else if (this.mode == 0 && this.leftlevel < 5) {
-            this.cargo[0][this.cargo[0].length]=new Container(this.sprite.x+ 900, this.sprite.y+this.shipv0  +this.leftlevel * (-1*this.cargoh), 1);
+            ncont = this.cargo[0][this.cargo[0].length]=new Container(this.sprite.x+ 900, this.sprite.y+this.shipv0  +this.leftlevel * (-1*this.cargoh), 1);
             this.leftlevel += 1;
         } else if (this.mode == 1 && this.middlelevel < 5) {
-            this.cargo[1][this.cargo[1].length]=new Container(this.sprite.x+1300, this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh), 1);
+            ncont = this.cargo[1][this.cargo[1].length]=new Container(this.sprite.x+1300, this.sprite.y+this.shipv0-3+this.middlelevel*(-1*this.cargoh), 1);
             this.middlelevel += 1;
         } else if (this.mode == 2 && this.rightlevel < 5) {
-            this.cargo[2][this.cargo[2].length]=new Container(this.sprite.x+1700, this.sprite.y+this.shipv0-6+this.rightlevel* (-1*this.cargoh), 1);
+            ncont = this.cargo[2][this.cargo[2].length]=new Container(this.sprite.x+1700, this.sprite.y+this.shipv0-6+this.rightlevel* (-1*this.cargoh), 1);
             this.rightlevel += 1;
         }
+        ncont.sprite.anchor.y = (ncont.sprite.position.y-30)/this.cargoh;
+        ncont.fall(ncont);
+        return true;
     }
     // multidimensional array of cargo (left,middle,right)
     this.cargo = [[],[],[]];
@@ -437,6 +461,8 @@ function Ship(){
 }
 
 function Container(x,y, me){
+    container = this;
+
     // instatiation position
     this.ix = x;
     this.iy = y;
@@ -455,9 +481,28 @@ function Container(x,y, me){
     this.sprite.filters = [this.filter];
     cMiddle.addChild(this.sprite);
 
+    // Fall animation (onto boat)
+    this.fall = function(that){
+        if( that.sprite.anchor.y>1 ) {
+            that.sprite.anchor.y-=0.1
+            window.setTimeout(function(){that.fall(that)},10);
+        } else {
+            that.sprite.anchor.y=1;
+        }
+    }
+
     // set position
     this.set = function(x,y){
         this.sprite.position.set(x,y);
+    }
+
+    this.falldie = function(that){
+        if(that.sprite.anchor.y>-5){
+            that.sprite.anchor.y-=0.3;
+            window.setTimeout(function(){that.falldie(that)},10);
+        }else{
+            that.die();
+        }
     }
 
     // unload, and don't render
@@ -478,7 +523,6 @@ function ingameLoad(){
     loadbtn.rotation=-0.03;window.setTimeout(function(){loadbtn.rotation=0.03;window.setTimeout(function(){loadbtn.rotation=0},200)},200)
     // Debug
     //gameState.points += 1;
-    // TODO: Hitbox then change container
     testship.loadc();
 }
 
