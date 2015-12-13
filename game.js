@@ -58,7 +58,7 @@ var numberconfig   = {font: "100px 'rockfire'", fill: "#CC2222", align:"right"};
 var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
 
-var versionText    = new PIXI.Text("Version 0.07d", versionconfig);
+var versionText    = new PIXI.Text("Version 0.08d", versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionconfig);
 var actionbgText   = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionbgconfig);
 var numberText     = new PIXI.Text("??", numberconfig);
@@ -232,6 +232,7 @@ function showIngame(){
             if (musictoggle){
                 gameSound.play();
             }
+            gameState.startplay = Date.now();
     };
 }
 
@@ -386,6 +387,7 @@ function State(){
     this.points = 0;
     this.goal = 9; // per ship
     this.playing = false;
+    this.startplay = 0;
     this.changeGoal = function(fg){
         this.goal = fg;
         setActionText(fg);
@@ -404,6 +406,7 @@ function State(){
     this.username = "Bobby";
     this.usernameask = false;
     this.stopgame = function(){
+        this.stopplay = Date.now();
         this.playing = false;
         cGui.addChild(startbtn);
         currlevel = 0;
@@ -424,7 +427,7 @@ function State(){
         xhttp = new XMLHttpRequest();
         xhttp.open("POST", "web/exec/submit_score.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+100+"&username="+escape(this.username));
+        xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+(this.stopplay-this.startplay)+"&username="+escape(this.username));
     }
 }
 
