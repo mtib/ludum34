@@ -69,7 +69,7 @@ function setActionText(num){
     numberbgText.text = " "+num;
 }
 var statsText      = new PIXI.Text("Mistake[s]\nPoint[s]\n#   Ship", statsconfig);
-var statsbgText    = new PIXI.Text(statsconfig.text, statsbgconfig);
+var statsbgText    = new PIXI.Text(statsText.text, statsbgconfig);
 var animstatText   = new PIXI.Text("n\nm\nN", statsconfig);
 var animstatbgText = new PIXI.Text(animstatText.text, statsbgconfig);
 
