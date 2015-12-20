@@ -1,1 +1,0 @@
-Images should be .png for deployment. Keep the file size small. Maximum resolution per image is 1024x1024 and file size 2MB. Project files or bigger files have to be kept in a sub folder starting with "raw_".

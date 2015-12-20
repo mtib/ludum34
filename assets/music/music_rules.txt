@@ -1,1 +1,0 @@
-Music should be .ogg, created by Kilian. Audacity files can be kept in a sub folder starting with "audacity_".
