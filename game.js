@@ -105,37 +105,36 @@ cGui.addChild(animstatText);
 cGui.addChild(numberText);
 cGui.addChild(versionText);
 
-// Keyboard IO
-var loadKey = keyboard(65);
-loadKey.press=function(){
-    ingameLoad();
-};
-var unloadKey = keyboard(68);
-unloadKey.press=function(){
-    ingameUnload();
-};
-
+// Keyboard IO -- Disabled for mobile.
+// var loadKey = keyboard(65);
+// loadKey.press=function(){
+//     ingameLoad();
+// };
+// var unloadKey = keyboard(68);
+// unloadKey.press=function(){
+//     ingameUnload();
+// };
 
 // init Gamestate
 var gameState = new State();
 
 // Image Locations
-var loadbtn_file    = "assets/image/buttons/load_btn.png";
-var unloadbtn_file  = "assets/image/buttons/unload_btn.png";
-var sky_file        = "assets/image/bg/sky_layer.png";
-var seabg_file      = "assets/image/bg/sea_layer.png";
-var shitsprite_file = "assets/image/sprites/boat_layer.png";
-var crane_base_file = "assets/image/sprites/cran_layer.png";
-var crane_arm_file  = "assets/image/sprites/cranarm_layer.png";
-var port_file       = "assets/image/sprites/port_layer.png";
-var container_file  = "assets/image/sprites/container_layer.png";
-var container_file2 = "assets/image/sprites/container_layer2.png";
-var container_file3 = "assets/image/sprites/container_layer3.png";
-var container_file4 = "assets/image/sprites/container_layer4.png";
-var displace_file   = "assets/image/sprites/displace.png";
-var mutem_file      = "assets/image/buttons/mutem_btn.png";
-var mutes_file      = "assets/image/buttons/mutes_btn.png";
-var start_file      = "assets/image/buttons/start_btn.png";
+var loadbtn_file    = "ludum34/assets/image/buttons/load_btn.png";
+var unloadbtn_file  = "ludum34/assets/image/buttons/unload_btn.png";
+var sky_file        = "ludum34/assets/image/bg/sky_layer.png";
+var seabg_file      = "ludum34/assets/image/bg/sea_layer.png";
+var shitsprite_file = "ludum34/assets/image/sprites/boat_layer.png";
+var crane_base_file = "ludum34/assets/image/sprites/cran_layer.png";
+var crane_arm_file  = "ludum34/assets/image/sprites/cranarm_layer.png";
+var port_file       = "ludum34/assets/image/sprites/port_layer.png";
+var container_file  = "ludum34/assets/image/sprites/container_layer.png";
+var container_file2 = "ludum34/assets/image/sprites/container_layer2.png";
+var container_file3 = "ludum34/assets/image/sprites/container_layer3.png";
+var container_file4 = "ludum34/assets/image/sprites/container_layer4.png";
+var displace_file   = "ludum34/assets/image/sprites/displace.png";
+var mutem_file      = "ludum34/assets/image/buttons/mutem_btn.png";
+var mutes_file      = "ludum34/assets/image/buttons/mutes_btn.png";
+var start_file      = "ludum34/assets/image/buttons/start_btn.png";
 //var wave_file = "assets/image/sprites/displace.png";
 
 // Load Images
@@ -204,9 +203,9 @@ function showIngame(){
     musicbtn.interactive  = true;
     soundbtn.interactive  = true;
     startbtn.interactive  = true;
-    loadbtn.click = function(data){ingameLoad();};
-    unloadbtn.click = function(data){ingameUnload();};
-    musicbtn.click = function(data){
+    loadbtn.click = loadbtn.mousedown = loadbtn.touchstart = function(data){ingameLoad();};
+    unloadbtn.click = unloadbtn.mousedown = unloadbtn.touchstart = function(data){ingameUnload();};
+    musicbtn.click = musicbtn.mousedown = musicbtn.touchstart = function(data){
         musictoggle=!musictoggle;
         if(musictoggle && gameState.playing){
             gameSound.play();
@@ -218,10 +217,10 @@ function showIngame(){
             menuSound.stop();
         }
     };
-    soundbtn.click = function(data){
+    soundbtn.click = soundbtn.mousedown = soundbtn.touchstart = function(data){
         soundtoggle=!soundtoggle;
     };
-    startbtn.click = function(data){
+    startbtn.click = startbtn.mousedown = startbtn.touchstart = function(data){
             menuSound.stop();
             cGui.removeChild(startbtn);
             gameState.playing = true;
@@ -240,56 +239,56 @@ function showIngame(){
 
 // Do Howler Stuff here
 var gameSound = new Howl({
-    urls: ["assets/music/BuutonBoatBashingTheme.ogg"],
+    urls: ["ludum34/assets/music/BuutonBoatBashingTheme.wav"],
     loop: true,
     volume: 0.4,
     rate: 2,
     onend: function() { /* ... */}
 });
 var menuSound = new Howl({
-    urls: ["assets/music/MenuTheme.ogg"],
+    urls: ["ludum34/assets/music/MenuTheme.wav"],
     loop: true,
     volume: 0.4,
     rate: 2,
     onend: function() { /* ... */}
 });
 var successSound = new Howl({
-    urls: ["assets/sounds/success.wav"],
+    urls: ["ludum34/assets/sounds/success.wav"],
     loop: false,
     volume: 0.2,
     rate: 1,
     onend: function() { /* ... */}
 });
 var failureSound = new Howl({
-    urls: ["assets/sounds/mistake.wav"],
+    urls: ["ludum34/assets/sounds/mistake.wav"],
     loop: false,
     volume: 0.15,
     rate: 1,
     onend: function() { /* ... */}
 });
 var bleepSound = new Howl({
-    urls: ["assets/sounds/bleep.wav"],
+    urls: ["ludum34/assets/sounds/bleep.wav"],
     loop: false,
     volume: 0.3,
     rate: 1,
     onend: function() { /* ... */}
 });
 var shipSuccessSound = new Howl({
-    urls: ["assets/sounds/shipsuccess.wav"],
+    urls: ["ludum34/assets/sounds/shipsuccess.wav"],
     loop: false,
     volume: 0.3,
     rate: 1,
     onend: function() { /* ... */}
 });
 var shipFailSound = new Howl({
-    urls: ["assets/sounds/shipfail.wav"],
+    urls: ["ludum34/assets/sounds/shipfail.wav"],
     loop: false,
     volume: 0.3,
     rate: 1,
     onend: function() { /* ... */}
 });
 var smashSound = new Howl({
-    urls: ["assets/sounds/smash.wav"],
+    urls: ["ludum34/assets/sounds/smash.wav"],
     loop: false,
     volume: 0.07,
     rate: 1.5,
@@ -312,13 +311,6 @@ function setup(){
     // background.filters = [xblurb];
     background.height = HEIGHT;
     background.width = WIDTH;
-    var wavesprite = new PIXI.Sprite.fromImage(displace_file);
-    wavesprite.scale={x:1,y:1};
-    var wavey = new PIXI.filters.DisplacementFilter(wavesprite);
-    var a = {x:0,y:0};
-    var wavedisp = window.setInterval(function() {a.x += rinr(-30,30)/1000.0; a.y +=rinr(-30,30)/1000.0; wavesprite.position.x += a.x;wavesprite.position.y += a.y; a.x/=1.1; a.y/=1.1;},10);
-    cBack.addChild(wavesprite);
-    background.filters = [wavey]
     clouds = new Cloud();
     cBack.addChild(background);
     port = new PIXI.Sprite.fromImage(port_file);
@@ -372,13 +364,13 @@ function Cloud(){
         if (this.sprite2.position.x<-1*this.sprite2.width) {
             this.sprite2.position.x=this.sprite2.width;
         }
-        this.sprite1.position.x -= 1;
-        this.sprite2.position.x -= 1;
+        this.sprite1.position.x -= .5;
+        this.sprite2.position.x -= .5;
     };
     cBack.addChild(this.sprite1);
     cBack.addChild(this.sprite2);
     this.sprite2.position.x=this.sprite1.width*1280;
-    this.interv = window.setInterval(function(){c.move();},100);
+    this.interv = window.setInterval(function(){c.move();},200);
 }
 
 // Class for Gamestate
@@ -404,7 +396,7 @@ function State(){
         animstatbgText.text=this.mistakes+"\n"+this.points+"\n"+this.level;
     }
     this.changeGoal(this.goal);
-    window.setInterval(function(){gameState.display();},100);
+    window.setInterval(function(){gameState.display();},500);
     this.username = "Bobby";
     this.usernameask = false;
     this.stopgame = function(){
@@ -417,19 +409,6 @@ function State(){
             menuSound.play();
         }
         ylose.text = "YOU LOST";
-        try {
-            if(!this.usernameask){
-                this.usernameask = true;
-                this.username = prompt("Your Username:");
-            }
-        } catch (e) {
-            console.log("error while prompting for username");
-        }
-        var xhttp;
-        xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "web/exec/submit_score.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+(this.stopplay-this.startplay)+"&username="+escape(this.username));
     }
 }
 
@@ -516,7 +495,7 @@ function Ship(){
     // periodically called to move ship
     this.move = function(){
         // speed: http://wolfr.am/8Wej7DTi
-        dx = 3 + 2*Math.pow(gameState.points/6,0.4);
+        dx = (3 + 2*Math.pow(gameState.points/6,0.4))  * 3;
         // old linear equation:
         // dx = gameState.points/2.5+3;
         this.sprite.x -= dx;
@@ -635,7 +614,7 @@ function Ship(){
     // multidimensional array of cargo (left,middle,right)
     this.cargo = [[],[],[]];
 
-    this.movement = window.setInterval(function(){ship.move();}, 10);
+    this.movement = window.setInterval(function(){ship.move();}, 30);
     // [800,1200,1600]
     this.cargoh = 91;
     this.shipv0 = 70;
@@ -686,8 +665,8 @@ function Container(x,y, me){
     // Fall animation (onto boat)
     this.fall = function(that){
         if( that.sprite.anchor.y>1 ) {
-            that.sprite.anchor.y-=0.1
-            window.setTimeout(function(){that.fall(that)},10);
+            that.sprite.anchor.y-=0.4;
+            window.setTimeout(function(){that.fall(that)},40);
         } else {
             that.sprite.anchor.y=1;
             if(soundtoggle){
@@ -703,8 +682,8 @@ function Container(x,y, me){
 
     this.falldie = function(that){
         if(that.sprite.anchor.y>-5){
-            that.sprite.anchor.y-=0.3;
-            window.setTimeout(function(){that.falldie(that)},10);
+            that.sprite.anchor.y-=1.4;
+            window.setTimeout(function(){that.falldie(that)},80);
         }else{
             that.die();
         }
@@ -725,7 +704,9 @@ function renderStage(){
 
 // Called on "Load"-Press
 function ingameLoad(){
-    loadbtn.rotation=-0.03;window.setTimeout(function(){loadbtn.rotation=0.03;window.setTimeout(function(){loadbtn.rotation=0},200)},200)
+    loadbtn.rotation=-0.03;
+    window.setTimeout(function(){
+        loadbtn.rotation=0.03;window.setTimeout(function(){loadbtn.rotation=0},200)},200)
     // Debug
     //gameState.points += 1;
     testship.loadc();
