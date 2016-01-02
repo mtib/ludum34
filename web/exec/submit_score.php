@@ -5,8 +5,9 @@
     $pts      = $_POST['points'];
     $mistakes = $_POST['mistakes'];
     $tm       = $_POST['time_taken'];
+    $version  = $_POST['version'];
 
-    if(!(isset($username) && isset($pts) && isset($mistakes) && isset($tm))){
+    if(!(isset($username) && isset($pts) && isset($mistakes) && isset($tm) && isset($version))){
         die('Invalid post request');
     }
 
@@ -17,13 +18,14 @@
     `name`,
     `points`,
     `mistakes`,
-    `time_taken`
+    `time_taken`,
+    `version`
     )
     VALUES (
-    NULL, ?, ?, ?, ?
+    NULL, ?, ?, ?, ?, ?
     );");
 
-    $prep->bind_param('siii', $username, $pts, $mistakes, $tm);
+    $prep->bind_param('siiis', $username, $pts, $mistakes, $tm, $version);
     $prep->execute();
     $prep->close();
 
