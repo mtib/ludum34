@@ -16,6 +16,9 @@ theme: Two Buttons Control, Growing
 var WIDTH = 1280;
 var HEIGHT = 720;
 
+// Current version
+var version = "0.08d"
+
 // Initialize Renderer
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT, {antialiasing: false, transparent: false, resolution: 1});
 renderer.backgroundColor = 0xABC8D2;
@@ -58,7 +61,7 @@ var numberconfig   = {font: "100px 'rockfire'", fill: "#CC2222", align:"right"};
 var numberbgconfig = {font: "100px 'rockfire'", fill: "#FFFFFF", align:"right"};
 
 
-var versionText    = new PIXI.Text("Version 0.08d", versionconfig);
+var versionText    = new PIXI.Text("Version "+version, versionconfig);
 var actionText     = new PIXI.Text("Fill all container ships\nSo that they carry    containers", actionconfig);
 var actionbgText   = new PIXI.Text(actionText.text, actionbgconfig);
 var numberText     = new PIXI.Text("??", numberconfig);
@@ -429,7 +432,7 @@ function State(){
         xhttp = new XMLHttpRequest();
         xhttp.open("POST", "web/exec/submit_score.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+(this.stopplay-this.startplay)+"&username="+escape(this.username));
+        xhttp.send("points="+this.points+"&mistakes="+this.mistakes+"&time_taken="+(this.stopplay-this.startplay)+"&username="+escape(this.username)+"&version="+version);
     }
 }
 
